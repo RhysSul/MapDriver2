@@ -40,8 +40,9 @@
 
 /* The name for our device, as it will appear
  * in /proc/devices
+ * 1. Call it map driver and the device /dev/asciimap
  */
-#define DEVICE_NAME  "/dev/CSI230ASCII"
+#define DEVICE_NAME  "/dev/asciimap"
 
 /*
  * Driver status structure
