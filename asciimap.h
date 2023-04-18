@@ -139,9 +139,9 @@ struct file_operations Fops =
 		.open = device_open,			/* open */
 		.read = device_read,			/* read */
 		.write = device_write,			/* write */
+		.ioctl = device_ioctl, /* ioctl */
 		.release = device_release,		/* a.k.a. close */
-		.unlocked_ioctl = device_ioctl, /* ioctl */
-		.seek = device_seek,			/* seek */
+		.llseek = device_seek,			/* seek */
 #if 0
 	.owner = NULL,   /* owner */
 	.readdir = NULL,   /* readdir */
