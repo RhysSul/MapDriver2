@@ -27,14 +27,10 @@ OBJ=main.o $(DRIVER)
 obj-m += $(DRIVER)
 
 all: $(EXE)
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-	@echo ""
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules	
 	@echo "ASCII Character Device Driver and the Test Program have been built."
 	@echo "Type 'make register' to register ASCII device module."
 	@echo "Then follow module's suggestion to mknod /dev/asciimap with the correct major number!"
-	@echo "EXTREME CAUTION IS HIGHLY RECOMMENDED. NOT TO USE ON YOUR OWN"
-	@echo "MACHINE OR NUCLEAR POWER PLANTS :) THERE MAY BE CONSEQUENCES"
-	@echo ""
 
 clean:
 	rm -f $(EXE) $(OBJ)
@@ -56,8 +52,8 @@ $(EXE): main.o
 main.o: main.c common.h
 	$(CC) $(CC_OPTIONS) $(INC) -c main.c
 
-$(DRIVER): types.h ascii.h ascii.c
-	$(CC) $(CC_OPTIONS) $(INC) -c ascii.c
+$(DRIVER): types.h asciimap.h asciimap.c
+	$(CC) $(CC_OPTIONS) $(INC) -c asciimap.c
 
 clean-all:
 	make clean

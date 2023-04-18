@@ -1,7 +1,7 @@
 #ifndef _ASCIIMAP_DEVICE_H
 #define _ASCIIMAP_DEVICE_H
 
-
+#define BSIZE (50 * 50)
 /* The necessary header files */
 
 /* Standard in kernel modules */
@@ -43,7 +43,10 @@ typedef struct _driver_status
 	bool busy;
 
 	/* The message the device will give when asked */
-	char  buf[DRV_BUF_SIZE];
+	/*
+		4. Define a BSIZE x BSIZE buffer
+	*/
+	char  buf[BSIZE * BSIZE];
 
 	/* How far did the process reading the message
 	 * get? Useful if the message is larger than the size
@@ -111,7 +114,7 @@ const char *initials =
 "                                                 \n"
 "                                                 \n"
 "                                                 \n"
-"                                                 \n"
+"                                                 \n";
 
 
 /*
