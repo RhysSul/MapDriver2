@@ -174,6 +174,25 @@ static ssize_t device_write(file, buffer, length, offset)
 	return nbytes;
 }
 
+static int copy(const char *src, char *goal){
+	int i = 0;
+	while(*src != '\0'){
+		*goal = *src;
+		goal++;
+		src++;
+		i++;
+	}
+	*goal = '\0';
+	i++;
+	return i;
+}
+
+static int write_chars(const char *src, char to_write, int amount){
+	for(
+		int 
+	)
+}
+
 
 /* Initialize the module - Register the character device */
 int
@@ -215,7 +234,12 @@ init_module(void)
 		DEVICE_NAME,
 		status.major
 	);
+	// 4. Initial set equal to the static map above and the region beyond the map set to 0
 
+	status.map_size_in_bytes = copy(
+		initials,
+		status.buf
+	);
 	return SUCCESS;
 }
 
