@@ -1,27 +1,14 @@
-/****
- * ascii.c
- *
- * The ASCII character device driver implementation
- *
- * CREDITS:
- *   o Many parts of the driver code has to be credited to
- *     Ori Pomerantz, in his chardev.c (Copyright (C) 1998-1999)
- *
- *     Source:  The Linux Kernel Module Programming Guide (specifically,
- *              http://www.tldp.org/LDP/lkmpg/2.6/html/index.html)
- */
-
-#include "ascii.h"
+#include "asciimap.h"
 
 /* Driver's Status is kept here */
 static driver_status_t status =
-{
-	'a',   /* Starting ASCII char is '0' */
-	false, /* Not busy at the beginning */
-	{0},   /* buffer */
-	NULL,  /* buffer's ptr */
-	-1,    /* major */
-	-1     /* minor */
+{		
+	.map_size_in_bytes = 0,
+	.busy = false,
+	.buf_ptr = NULL,
+	.buf = {0},
+	.major = -1,
+	.minor = -1,	
 };
 
 
@@ -139,14 +126,10 @@ static ssize_t device_read(file, buffer, length, offset)
 
 	/* Actually put the data into the buffer */
 	while(length > 0)
-	{
-		/* Because the buffer is in the user data segment,
-		 * not the kernel data segment, assignment wouldn't
-		 * work. Instead, we have to use put_user which
-		 * copies data from the kernel data segment to the
-		 * user data segment.
-		 */
-		put_user(status.curr_char, buffer++);
+	{		
+		char ltr = *status.buf_ptr;
+		put_user(ltr, buffer++);
+		*status.buf_ptr++;
 
 		length--;
 		bytes_read++;
@@ -155,17 +138,11 @@ static ssize_t device_read(file, buffer, length, offset)
 #ifdef _DEBUG
 	printk
 	(
-		"ascii::device_read() - Read %d bytes, %d left\n",
+		"asciimap::device_read() - Read %d bytes, %d left\n",
 		bytes_read,
 		length
 	);
 #endif
-
-	/* 
-	 * once code reaches 127 we have to wrap around to '0'
-	 */
-	if(++status.curr_char == 127)
-		status.curr_char = '0';
 
 	/* Read functions are supposed to return the number
 	 * of bytes actually inserted into the buffer
@@ -179,6 +156,7 @@ static ssize_t device_read(file, buffer, length, offset)
  */
 static ssize_t device_write(file, buffer, length, offset)
 	struct file* file;
+	// 2. Maintain the current buffer pointer
 	const char*  buffer;  /* The buffer */
 	size_t       length;  /* The length of the buffer */
 	loff_t*      offset;  /* Our offset in the file */
@@ -188,15 +166,11 @@ static ssize_t device_write(file, buffer, length, offset)
 #ifdef _DEBUG
 	printk
 	(
-		"ascii::device_write() - Length: [%d], Buf: [%s]\n",
+		"asciimap::device_write() - Length: [%d], Buf: [%s]\n",
 		length,
 		buffer
 	);
-#endif
-
-	/* Rewind ASCII char back to '0' */
-	status.curr_char = '0';
-
+#endif	
 	return nbytes;
 }
 
@@ -218,7 +192,7 @@ init_module(void)
 	{
 		printk
 		(
-			"Sorry, registering the ASCII device failed with %d\n",
+			"Sorry, registering the ASCIIMap device failed with %d\n",
 			status.major
 		);
 

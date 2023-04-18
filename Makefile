@@ -2,7 +2,7 @@
 #
 # Makefile
 #
-# Main makefile to build: - ASCII character device driver
+# Main makefile to build: - ASCIIMap character device driver
 #                         - main() to test the driver
 #
 # Serguei Mokhov
@@ -19,9 +19,9 @@ CC_OPTIONS=-O1 $(WARNINGS) $(ISO) $(DEBUG) $(DEFINE)
 # Where to look for header files
 INC=-I. -I/usr/include -I/usr/src/kernels/`uname -r`/include
 
-DRIVER=ascii.o
-MODULE=ascii.ko
-EXE=ascii-test
+DRIVER=asciimap.o
+MODULE=asciimap.ko
+EXE=asciimap-test
 OBJ=main.o $(DRIVER)
 
 obj-m += $(DRIVER)
@@ -31,7 +31,7 @@ all: $(EXE)
 	@echo ""
 	@echo "ASCII Character Device Driver and the Test Program have been built."
 	@echo "Type 'make register' to register ASCII device module."
-	@echo "Then follow module's suggestion to mknod /dev/CSI230ASCII with the correct major number!"
+	@echo "Then follow module's suggestion to mknod /dev/asciimap with the correct major number!"
 	@echo "EXTREME CAUTION IS HIGHLY RECOMMENDED. NOT TO USE ON YOUR OWN"
 	@echo "MACHINE OR NUCLEAR POWER PLANTS :) THERE MAY BE CONSEQUENCES"
 	@echo ""
