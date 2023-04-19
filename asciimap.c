@@ -280,9 +280,6 @@ unsigned long ioctl_param;
 */
 static loff_t device_seek(struct file *file, loff_t offset, int whence)
 {
-	const SEEK_SET = 0;
-	const SEEK_CUR = 1;
-	const SEEK_END = 2;
 	switch (whence)
 	{
 	case SEEK_SET:
