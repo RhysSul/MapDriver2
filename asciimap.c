@@ -218,13 +218,13 @@ unsigned long ioctl_param;
 	{
 	case reset:
 		// 7. Implement ioctl() to allow resetting the map back to its original default (all blank except the area pre-filled with the static initials map).
-		status.map_size_in_bytes = copy(status.buf, initials);
+		status.map_size_in_bytes = custom_copy(status.buf, initials);
 		status.buf_ptr = status.buf;
 		break;
 	case zero_out:
 		// 7. Write another ioctl option zero-out the entire buffer (with resetting the lengths and the pointer).
 		status.map_size_in_bytes = BSIZE_SQUARED;
-		write_chars(status.buf, '\0', BSIZE_SQUARED);
+		custom_write_chars(status.buf, '\0', BSIZE_SQUARED);
 		status.buf_ptr = status.buf;
 		break;
 	case check_consistency:
@@ -277,7 +277,7 @@ static loff_t device_seek(struct file *file, loff_t offset, int whence)
 	return 0;
 }
 
-int copy(const char *src, char *goal)
+int custom_copy(const char *src, char *goal)
 {
 	int i = 0;
 	while (*src != '\0')
@@ -292,7 +292,7 @@ int copy(const char *src, char *goal)
 	return i;
 }
 
-int write_chars(char *src, char to_write, int amount)
+int custom_write_chars(char *src, char to_write, int amount)
 {
 	int i = 0;
 	while (i < amount)
@@ -336,11 +336,11 @@ int init_module(void)
 		DEVICE_NAME,
 		status.major);
 	// 4. Initial set equal to the static map above and the region beyond the map set to 0
-	write_chars(
+	custom_write_chars(
 		status.buf,
 		'0',
 		BSIZE_SQUARED);
-	status.map_size_in_bytes = copy(
+	status.map_size_in_bytes = custom_copy(
 		initials,
 		status.buf);
 	return SUCCESS;
