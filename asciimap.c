@@ -1,5 +1,32 @@
 #include "asciimap.h"
 
+int custom_copy(const char *src, char *goal)
+{
+	int i = 0;
+	while (*src != '\0')
+	{
+		*goal = *src;
+		goal++;
+		src++;
+		i++;
+	}
+	*goal = '\0';
+	i++;
+	return i;
+}
+
+int custom_write_chars(char *src, char to_write, int amount)
+{
+	int i = 0;
+	while (i < amount)
+	{
+		*src = to_write;
+		src++;
+		i++;
+	}
+	return i;
+}
+
 /* Driver's Status is kept here */
 static driver_status_t status =
 	{
@@ -275,33 +302,6 @@ static loff_t device_seek(struct file *file, loff_t offset, int whence)
 		break;
 	}
 	return 0;
-}
-
-int custom_copy(const char *src, char *goal)
-{
-	int i = 0;
-	while (*src != '\0')
-	{
-		*goal = *src;
-		goal++;
-		src++;
-		i++;
-	}
-	*goal = '\0';
-	i++;
-	return i;
-}
-
-int custom_write_chars(char *src, char to_write, int amount)
-{
-	int i = 0;
-	while (i < amount)
-	{
-		*src = to_write;
-		src++;
-		i++;
-	}
-	return i;
 }
 
 /* Initialize the module - Register the character device */
