@@ -1,6 +1,6 @@
 #include "asciimap.h"
 
-int custom_copy(const char *src, char *goal)
+int custom_copy(const char *src, const char *goal)
 {
 	int i = 0;
 	while (*src != '\0')
@@ -338,8 +338,8 @@ int init_module(void)
 		'0',
 		BSIZE_SQUARED);
 	status.map_size_in_bytes = custom_copy(
-		initials,
-		status.buf);
+		status.buf,
+		initials);
 	return SUCCESS;
 }
 
