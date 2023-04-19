@@ -2,22 +2,21 @@
 
 /* Driver's Status is kept here */
 static driver_status_t status =
-{		
-	.map_size_in_bytes = 0,
-	.busy = false,
-	.buf_ptr = NULL,
-	.buf = {0},
-	.major = -1,
-	.minor = -1,	
+	{
+		.map_size_in_bytes = 0,
+		.busy = false,
+		.buf_ptr = NULL,
+		.buf = {0},
+		.major = -1,
+		.minor = -1,
 };
-
 
 /* This function is called whenever a process
  * attempts to open the device file
  */
 static int device_open(inode, file)
-	struct inode* inode;
-	struct file*  file;
+struct inode *inode;
+struct file *file;
 {
 	static int counter = 0;
 
@@ -32,18 +31,16 @@ static int device_open(inode, file)
 	status.minor = inode->i_rdev >> 8;
 	status.minor = inode->i_rdev & 0xFF;
 
-	printk
-	(
+	printk(
 		"Device: %d.%d, busy: %d\n",
 		status.major,
 		status.minor,
-		status.busy
-	);
+		status.busy);
 
 	/* We don't want to talk to two processes at the
 	 * same time
 	 */
-	if(status.busy)
+	if (status.busy)
 		return -EBUSY;
 
 	/* If this was a process, we would have had to be
@@ -71,13 +68,11 @@ static int device_open(inode, file)
 	status.busy = true;
 
 	/* Initialize the message. */
-	sprintf
-	(
+	sprintf(
 		status.buf,
 		"If I told you once, I told you %d times - %s",
 		counter++,
-		"Hello, world\n"
-	);
+		"Hello, world\n");
 
 	/* The only reason we're allowed to do this sprintf
 	 * is because the maximum length of the message
@@ -92,16 +87,15 @@ static int device_open(inode, file)
 	return SUCCESS;
 }
 
-
 /* This function is called when a process closes the
  * device file.
  */
 static int device_release(inode, file)
-	struct inode* inode;
-	struct file*  file;
+struct inode *inode;
+struct file *file;
 {
 #ifdef _DEBUG
-	printk ("device_release(%p,%p)\n", inode, file);
+	printk("device_release(%p,%p)\n", inode, file);
 #endif
 
 	/* We're now ready for our next caller */
@@ -110,23 +104,31 @@ static int device_release(inode, file)
 	return SUCCESS;
 }
 
-
-/* This function is called whenever a process which
- * have already opened the device file attempts to
- * read from it.
+/*
+	5.  Implement the read() system call to return the map data within appropriate size and bounds and map limits.
+	Read for now is a singleton read (no concurrent reads are allowed).
+	If you stored your map as a contiguous set of lines (one-dimensional array) delimited by \n and
+	terminated by null, that’s basically what you return per size requested/available.
+	Attempts to read beyond the last line, would simply return 0 bytes.
+	The read updates the current buffer pointer within the driver.
  */
 static ssize_t device_read(file, buffer, length, offset)
-	struct file* file;
-    char*        buffer;  /* The buffer to fill with data */
-    size_t       length;  /* The length of the buffer */
-    loff_t*      offset;  /* Our offset in the file */
+struct file *file;
+char *buffer;	/* The buffer to fill with data */
+size_t length;	/* The length of the buffer */
+loff_t *offset; /* Our offset in the file */
 {
 	/* Number of bytes actually written to the buffer */
 	int bytes_read = 0;
 
 	/* Actually put the data into the buffer */
-	while(length > 0)
-	{		
+	while (length > 0)
+	{
+		// attempts to read beyond the last line, would simply return 0 bytes
+		if (*status.buf_ptr == '\0')
+		{
+			return 0;
+		}
 		char ltr = *status.buf_ptr;
 		put_user(ltr, buffer++);
 		*status.buf_ptr++;
@@ -136,12 +138,10 @@ static ssize_t device_read(file, buffer, length, offset)
 	}
 
 #ifdef _DEBUG
-	printk
-	(
+	printk(
 		"asciimap::device_read() - Read %d bytes, %d left\n",
 		bytes_read,
-		length
-	);
+		length);
 #endif
 
 	/* Read functions are supposed to return the number
@@ -150,33 +150,32 @@ static ssize_t device_read(file, buffer, length, offset)
 	return bytes_read;
 }
 
-
 /* This function is called when somebody tries to write
  * into our device file.
  */
 static ssize_t device_write(file, buffer, length, offset)
-	struct file* file;
-	// 2. Maintain the current buffer pointer
-	const char*  buffer;  /* The buffer */
-	size_t       length;  /* The length of the buffer */
-	loff_t*      offset;  /* Our offset in the file */
+struct file *file;
+// 2. Maintain the current buffer pointer
+const char *buffer; /* The buffer */
+size_t length;		/* The length of the buffer */
+loff_t *offset;		/* Our offset in the file */
 {
 	int nbytes = 0;
 
 #ifdef _DEBUG
-	printk
-	(
+	printk(
 		"asciimap::device_write() - Length: [%d], Buf: [%s]\n",
 		length,
-		buffer
-	);
-#endif	
+		buffer);
+#endif
 	return nbytes;
 }
 
-static int copy(const char *src, char *goal){
+static int copy(const char *src, char *goal)
+{
 	int i = 0;
-	while(*src != '\0'){
+	while (*src != '\0')
+	{
 		*goal = *src;
 		goal++;
 		src++;
@@ -187,66 +186,59 @@ static int copy(const char *src, char *goal){
 	return i;
 }
 
-static int write_chars(const char *src, char to_write, int amount){
-	for(
-		int 
-	)
+static int write_chars(const char *src, char to_write, int amount)
+{
+	for (int i = 0; i < amount; i++)
+	{
+		*src = to_write;
+		src++;
+	}
 }
 
-
 /* Initialize the module - Register the character device */
-int
-init_module(void)
+int init_module(void)
 {
 	/* Register the character device (atleast try) */
-	status.major = register_chrdev
-	(
+	status.major = register_chrdev(
 		0,
 		DEVICE_NAME,
-		&Fops
-	);
+		&Fops);
 
 	/* Negative values signify an error */
-	if(status.major < 0)
+	if (status.major < 0)
 	{
-		printk
-		(
+		printk(
 			"Sorry, registering the ASCIIMap device failed with %d\n",
-			status.major
-		);
+			status.major);
 
 		return status.major;
 	}
 
-	printk
-	(
+	printk(
 		"Registeration is a success. The major device number is %d.\n",
-		status.major
-	);
+		status.major);
 
-	printk
-	(
-		"If you want to talk to the device driver,\n" \
-		"you'll have to create a device file. \n" \
-		"We suggest you use:\n\n" \
-		"mknod %s c %d <minor>\n\n" \
+	printk(
+		"If you want to talk to the device driver,\n"
+		"you'll have to create a device file. \n"
+		"We suggest you use:\n\n"
+		"mknod %s c %d <minor>\n\n"
 		"You can try different minor numbers and see what happens.\n",
 		DEVICE_NAME,
-		status.major
-	);
+		status.major);
 	// 4. Initial set equal to the static map above and the region beyond the map set to 0
-
+	write_chars(
+		status.map,
+		'0',
+		BSIZE_SQUARED);
 	status.map_size_in_bytes = copy(
 		initials,
-		status.buf
-	);
+		status.buf);
 	return SUCCESS;
 }
 
-
 /* Cleanup - unregister the appropriate file from /proc */
-void
-cleanup_module(void)
+void cleanup_module(void)
 {
 	unregister_chrdev(status.major, DEVICE_NAME);
 }
