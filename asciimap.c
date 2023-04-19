@@ -198,6 +198,54 @@ loff_t *offset;		/* Our offset in the file */
 	return nbytes;
 }
 
+/*
+	7. Implement ioctl() to allow resetting the map back to its original default (all blank except the area pre-filled with the static initials map).
+Write another ioctl option zero-out the entire buffer (with resetting the lengths and the pointer).
+Write another ioctl option to check map for consistency and report of it isn’t, e.g.,
+• byte length over width of the first line does not yield an integer
+• the map contains non-printable ASCII characters (< 32 in ASCII codes), including null, within
+its current length.
+*/
+static int device_ioctl(inode, file, ioctl_num, ioctl_param)
+struct inode *inode;
+struct file *file;
+unsigned int ioctl_num; /* number and param for ioctl  */
+unsigned long ioctl_param;
+{
+	const reset = 0;
+	const zero_out = 1;
+	const check_consistency = 2;
+	switch (ioctl_num)
+	{
+	case reset:
+		// 7. Implement ioctl() to allow resetting the map back to its original default (all blank except the area pre-filled with the static initials map).
+		status.map_size_in_bytes = copy(status.buf, initials);
+		status.buf_ptr = status.buf;
+		break;
+	case zero_out:
+		// 7. Write another ioctl option zero-out the entire buffer (with resetting the lengths and the pointer).
+		status.map_size_in_bytes = BSIZE_SQUARED;
+		write_chars(status.buf, '\0', BSIZE_SQUARED);
+		status.buf_ptr = status.buf;
+		break;
+	case check_consistency:
+		// 7. Write another ioctl option to check map for consistency and report of it isn’t, e.g.,
+		// • byte length over width of the first line does not yield an integer
+		// • the map contains non-printable ASCII characters (< 32 in ASCII codes), including null, within
+		// its current length.
+		char *ptr = status.buf;
+		while (*ptr)
+		{
+			// the map contains non-printable ASCII characters (< 32 in ASCII codes), including null, within its current length.
+			if (*ptr < 32)
+			{
+				return -1;
+			}
+			ptr++;
+		}
+	}
+}
+
 static int copy(const char *src, char *goal)
 {
 	int i = 0;
