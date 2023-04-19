@@ -165,7 +165,7 @@ const char *buffer; /* The buffer */
 size_t length;		/* The length of the buffer */
 loff_t *offset;		/* Our offset in the file */
 {
-int written = 0;
+	int written = 0;
 	while (length > 0)
 	{
 		if (*status.buf_ptr == '\0')
@@ -292,9 +292,16 @@ static int copy(const char *src, char *goal)
 	return i;
 }
 
-static int write_chars(const char *src, char to_write, int amount)
+static int write_chars(char *src, char to_write, int amount)
 {
-	
+	int i = 0;
+	while (i < amount)
+	{
+		*src = to_write;
+		src++;
+		i++;
+	}
+	return i;
 }
 
 /* Initialize the module - Register the character device */
