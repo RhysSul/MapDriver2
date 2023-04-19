@@ -165,8 +165,7 @@ const char *buffer; /* The buffer */
 size_t length;		/* The length of the buffer */
 loff_t *offset;		/* Our offset in the file */
 {
-
-	int written = 0;
+int written = 0;
 	while (length > 0)
 	{
 		if (*status.buf_ptr == '\0')
@@ -195,7 +194,7 @@ loff_t *offset;		/* Our offset in the file */
 		buffer);
 #endif
 	// Return an appropriate value and set errno appropriately if outside of the buffer’s bounds.
-	return nbytes;
+	return written;
 }
 
 /*
@@ -212,9 +211,9 @@ struct file *file;
 unsigned int ioctl_num; /* number and param for ioctl  */
 unsigned long ioctl_param;
 {
-	const reset = 0;
-	const zero_out = 1;
-	const check_consistency = 2;
+	const int reset = 0;
+	const int zero_out = 1;
+	const int check_consistency = 2;
 	switch (ioctl_num)
 	{
 	case reset:
@@ -243,7 +242,9 @@ unsigned long ioctl_param;
 			}
 			ptr++;
 		}
+		break;
 	}
+	return 0;
 }
 
 /*
@@ -293,11 +294,7 @@ static int copy(const char *src, char *goal)
 
 static int write_chars(const char *src, char to_write, int amount)
 {
-	for (int i = 0; i < amount; i++)
-	{
-		*src = to_write;
-		src++;
-	}
+	
 }
 
 /* Initialize the module - Register the character device */
@@ -333,7 +330,7 @@ int init_module(void)
 		status.major);
 	// 4. Initial set equal to the static map above and the region beyond the map set to 0
 	write_chars(
-		status.map,
+		status.buf,
 		'0',
 		BSIZE_SQUARED);
 	status.map_size_in_bytes = copy(
