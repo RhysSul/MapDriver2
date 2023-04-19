@@ -232,8 +232,7 @@ Write another ioctl option to check map for consistency and report of it isn’t
 • the map contains non-printable ASCII characters (< 32 in ASCII codes), including null, within
 its current length.
 // */
-static int device_ioctl(inode, file, ioctl_num, ioctl_param)
-struct inode *inode;
+static int device_ioctl(file, ioctl_num, ioctl_param)
 struct file *file;
 unsigned int ioctl_num; /* number and param for ioctl  */
 unsigned long ioctl_param;

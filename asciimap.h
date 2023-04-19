@@ -124,7 +124,7 @@ static int device_release(struct inode *, struct file *);
 static ssize_t device_read(struct file *, char *, size_t, loff_t *);
 static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 static loff_t device_seek(struct file *, loff_t, int);
-static int device_ioctl(struct inode *, struct file *, unsigned int, unsigned long);
+static long device_ioctl(struct file *, unsigned int, unsigned long);
 
 /* Kernel module-related */
 
@@ -138,12 +138,12 @@ static int device_ioctl(struct inode *, struct file *, unsigned int, unsigned lo
  */
 struct file_operations Fops =
 	{
-		.open = device_open,	  /* open */
-		.read = device_read,	  /* read */
-		.write = device_write,	  /* write */
-		.llseek = device_seek,	  /* seek */
-		.ioctl = device_ioctl,	  /* ioctl */
-		.release = device_release /* a.k.a. close */
+		.open = device_open,			/* open */
+		.read = device_read,			/* read */
+		.write = device_write,			/* write */
+		.llseek = device_seek,			/* seek */
+		.unlocked_ioctl = device_ioctl, /* ioctl */
+		.release = device_release		/* a.k.a. close */
 };
 
 int init_module(void);
