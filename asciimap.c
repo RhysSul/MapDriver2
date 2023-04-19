@@ -246,6 +246,36 @@ unsigned long ioctl_param;
 	}
 }
 
+/*
+8.  Implement lseek() system call to allow internal pointer repositioning arbitrarily within your map’s buffer.
+	Return an appropriate value and set errno appropriately if outside of the map’s bounds.
+*/
+static loff_t device_seek(struct file *file, loff_t offset, int whence)
+{
+	const SEEK_SET = 0;
+	const SEEK_CUR = 1;
+	const SEEK_END = 2;
+	switch (whence)
+	{
+	case SEEK_SET:
+		// 8. Implement lseek() system call to allow internal pointer repositioning arbitrarily within your map’s buffer.
+		status.buf_ptr = status.buf + offset;
+		break;
+	case SEEK_CUR:
+		// 8. Return an appropriate value and set errno appropriately if outside of the map’s bounds.
+		if (status.buf_ptr + offset > status.buf + status.map_size_in_bytes)
+		{
+			return -1;
+		}
+		status.buf_ptr = status.buf_ptr + offset;
+		break;
+	case SEEK_END:
+		status.buf_ptr = status.buf + status.map_size_in_bytes;
+		break;
+	}
+	return 0;
+}
+
 static int copy(const char *src, char *goal)
 {
 	int i = 0;
