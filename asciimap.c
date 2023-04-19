@@ -124,7 +124,7 @@ loff_t *offset; /* Our offset in the file */
 	/* Actually put the data into the buffer */
 	while (length > 0)
 	{
-		// attempts to read beyond the last line, would simply return 0 bytes
+		// 5. attempts to read beyond the last line, would simply return 0 bytes
 		if (*status.buf_ptr == '\0')
 		{
 			return 0;
@@ -150,8 +150,13 @@ loff_t *offset; /* Our offset in the file */
 	return bytes_read;
 }
 
-/* This function is called when somebody tries to write
- * into our device file.
+/*
+
+6. Implement the write() system call to write to the driver’s buffer the map data supplied.
+It writes from the point where the current pointer was left off after the last read, write, or lseek.
+The write updates the current buffer pointer within the driver and potentially the length.
+Return an appropriate value and set errno appropriately if outside of the buffer’s bounds.
+
  */
 static ssize_t device_write(file, buffer, length, offset)
 struct file *file;
@@ -160,7 +165,28 @@ const char *buffer; /* The buffer */
 size_t length;		/* The length of the buffer */
 loff_t *offset;		/* Our offset in the file */
 {
-	int nbytes = 0;
+
+	int written = 0;
+	while (length > 0)
+	{
+		if (*status.buf_ptr == '\0')
+		{
+			// 6. Return an appropriate value and set errno appropriately if outside of the buffer’s bounds.
+			return -1;
+		}
+		// 6. It writes from the point where the current pointer was left off after the last read, write, or lseek.
+		char ltr = *buffer;
+		*status.buf_ptr = ltr;
+		*status.buf_ptr++;
+		*buffer++;
+		length--;
+		written++;
+		// The write updates the current buffer pointer within the driver and potentially the length.
+		if (status.map_size_in_bytes < written)
+		{
+			status.map_size_in_bytes = written;
+		}
+	}
 
 #ifdef _DEBUG
 	printk(
@@ -168,6 +194,7 @@ loff_t *offset;		/* Our offset in the file */
 		length,
 		buffer);
 #endif
+	// Return an appropriate value and set errno appropriately if outside of the buffer’s bounds.
 	return nbytes;
 }
 
