@@ -1,16 +1,16 @@
 #include "asciimap.h"
 
-int custom_copy(const char *src, const char *goal)
+int custom_copy(char *copy_to, const char *copy_from)
 {
 	int i = 0;
-	while (*src != '\0')
+	while (*copy_from != '\0')
 	{
-		*goal = *src;
-		goal++;
-		src++;
+		*copy_to = *copy_from;
+		copy_from++;
+		copy_to++;
 		i++;
 	}
-	*goal = '\0';
+	*copy_to = '\0';
 	i++;
 	return i;
 }
