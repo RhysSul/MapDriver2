@@ -12,6 +12,7 @@
 #include <linux/fs.h> /* The character device
                              * definitions are here
                              */
+#include <linux/ioctl.h>
 
 #include <asm/uaccess.h> /* for put/get_user */
 

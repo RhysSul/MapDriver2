@@ -2,6 +2,8 @@
     "files.associations": {
         "*.tcc": "c",
         "string": "c",
-        "string_view": "c"
+        "string_view": "c",
+        "asciimap.h": "c",
+        "fs.h": "c"
     }
 }
