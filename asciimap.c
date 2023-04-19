@@ -277,7 +277,7 @@ static loff_t device_seek(struct file *file, loff_t offset, int whence)
 	return 0;
 }
 
-static int copy(const char *src, char *goal)
+int copy(const char *src, char *goal)
 {
 	int i = 0;
 	while (*src != '\0')
@@ -292,7 +292,7 @@ static int copy(const char *src, char *goal)
 	return i;
 }
 
-static int write_chars(char *src, char to_write, int amount)
+int write_chars(char *src, char to_write, int amount)
 {
 	int i = 0;
 	while (i < amount)
