@@ -1,3 +1,5 @@
+# !/bin/bash
+
 # TODO: Move into make file
 
 sudo rmmod ./ascii.ko
