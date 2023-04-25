@@ -8,6 +8,20 @@
 #include <sys/ioctl.h>
 
 #include "common.h"
+
+void printDriver(int driverFid)
+{
+	char buffer[BUFSIZ];
+	int amount_read = read(driverFid, buffer, BUFSIZ);
+	if (amount_read < 0)
+	{
+		printf("Error reading from device file\n");
+		return -1;
+	}
+	printf("Read %d bytes from device file\n", amount_read);
+	printf("%s\n", buffer);
+}
+
 /*
 You should have a test program that:
 
@@ -31,15 +45,19 @@ char *argv[];
 	}
 	printf("Opened device file\n");
 	// 2. Read and display data from the driver's device file (which should be your static, initials map) using read()
-	char buffer[BUFSIZ];
-	int amount_read = read(driverFid, buffer, BUFSIZ);
-	if (amount_read < 0)
+	printDriver(driverFid);
+	// 3. Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver).
+	char writeBuffer[BUFSIZ];
+	char toWrite = 'a';
+	memset(writeBuffer, toWrite, BUFSIZ);
+	int amount_written = write(driverFid, writeBuffer, BUFSIZ);
+	if (amount_written < 0)
 	{
-		printf("Error reading from device file\n");
+		printf("Error writing to device file\n");
 		return -1;
 	}
-	printf("Read %d bytes from device file\n", amount_read);
-	printf("%s\n", buffer);
+	printf("Wrote %d bytes to device file\n", amount_written);
+	printDriver(driverFid);
 }
 
 /* EOF */
