@@ -8,19 +8,28 @@
 #include <sys/ioctl.h>
 
 #include "common.h"
+/*
+You should have a test program that:
 
+Opens the driver's device file ("/dev/asciimap")
+Reads and displays data from the driver's device file (which should be your static, initials map) using read()
+Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver).
+Uses all 3 ioctl() features on the driver's device file, demonstrating results from each of them (i.e., there should be a way to get the "Check Map" ioctl to succeed and to fail -- I want to see that both forms work).
+Uses lseek() on the driver's device file, using all 3 forms of the "whence" parameter, and demonstrates that they work correctly.
+*/
 int main(argc, argv)
 int argc;
 char *argv[];
 {
-	char buf[BSIZE];
-	int fd, i, j, n;
+	// 1. Open the driver's device file ("/dev/asciimap")
+	int fd;
 	fd = open("/dev/asciimap", O_RDWR);
 	if (fd != 0)
 	{
 		printf("Error opening device file\n");
 		return -1;
 	}
+	printf("Opened device file\n");
 }
 
 /* EOF */
