@@ -202,9 +202,10 @@ loff_t *offset;		/* Our offset in the file */
 		}
 		// 6. It writes from the point where the current pointer was left off after the last read, write, or lseek.
 		char ltr = *buffer;
+		// TODO: Swap to get user for assignment
 		*status.buf_ptr = ltr;
-		*status.buf_ptr++;
-		*buffer++;
+		status.buf_ptr++;
+		buffer++;
 		length--;
 		written++;
 		// The write updates the current buffer pointer within the driver and potentially the length.
@@ -237,6 +238,7 @@ struct file *file;
 unsigned int ioctl_num; /* number and param for ioctl  */
 unsigned long ioctl_param;
 {
+	// TODO: Captilaize & convert to # define in header file
 	const int reset = 0;
 	const int zero_out = 1;
 	const int check_consistency = 2;
@@ -334,7 +336,7 @@ int init_module(void)
 	// 4. Initial set equal to the static map above and the region beyond the map set to 0
 	custom_write_chars(
 		status.buf,
-		'0',
+		'\0',
 		BSIZE_SQUARED);
 	status.map_size_in_bytes = custom_copy(
 		status.buf,
