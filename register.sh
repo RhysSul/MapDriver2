@@ -2,7 +2,7 @@
 
 # TODO: Move into make file
 
-sudo rmmod ./ascii.ko
+sudo rmmod ./asciimap.ko
 sudo rm -rf /dev/asciimap
 make all
 sudo make register
