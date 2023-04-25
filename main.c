@@ -26,7 +26,7 @@ char *argv[];
 	fd = open("/dev/asciimap", O_RDWR);
 	if (fd != 0)
 	{
-		printf("Error opening device file\n");
+		printf("Error opening device file\n", fd);
 		return -1;
 	}
 	printf("Opened device file\n");
