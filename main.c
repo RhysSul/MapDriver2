@@ -22,14 +22,24 @@ int argc;
 char *argv[];
 {
 	// 1. Open the driver's device file ("/dev/asciimap")
-	int fd;
-	fd = open("/dev/asciimap", O_RDWR);
-	if (fd < 0)
+	int driverFid;
+	driverFid = open("/dev/asciimap", O_RDWR);
+	if (driverFid < 0)
 	{
-		printf("Error opening device file\n", fd);
+		printf("Error opening device file\n", driverFid);
 		return -1;
 	}
 	printf("Opened device file\n");
+	// 2. Read and display data from the driver's device file (which should be your static, initials map) using read()
+	char buffer[BUFSIZ];
+	int amount_read = read(driverFid, buffer, BUFSIZ);
+	if (amount_read < 0)
+	{
+		printf("Error reading from device file\n");
+		return -1;
+	}
+	printf("Read %d bytes from device file\n", amount_read);
+	printf("%s\n", buffer);
 }
 
 /* EOF */
