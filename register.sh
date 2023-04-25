@@ -1,6 +1,6 @@
 # !/bin/bash
 
-# TODO: Move into make file
+# TODO: Move into make file, yeah
 
 sudo rmmod ./asciimap.ko
 sudo rm -rf /dev/asciimap
