@@ -45,16 +45,9 @@ static int device_open(inode, file)
 struct inode *inode;
 struct file *file;
 {
-	static int counter = 0;
-
 #ifdef _DEBUG
 	printk("device_open(%p,%p)\n", inode, file);
 #endif
-
-	/* This is how you get the minor device number in
-	 * case you have more than one physical device using
-	 * the driver.
-	 */
 	status.minor = inode->i_rdev >> 8;
 	status.minor = inode->i_rdev & 0xFF;
 
@@ -64,50 +57,10 @@ struct file *file;
 		status.minor,
 		status.busy);
 
-	/* We don't want to talk to two processes at the
-	 * same time
-	 */
 	if (status.busy)
 		return -EBUSY;
 
-	/* If this was a process, we would have had to be
-	 * more careful here.
-	 *
-	 * In the case of processes, the danger would be
-	 * that one process might have check busy
-	 * and then be replaced by the schedualer by another
-	 * process which runs this function. Then, when the
-	 * first process was back on the CPU, it would assume
-	 * the device is still not open.
-	 *
-	 * However, Linux guarantees that a process won't be
-	 * replaced while it is running in kernel context.
-	 *
-	 * In the case of SMP, one CPU might increment
-	 * busy while another CPU is here, right after
-	 * the check. However, in version 2.0 of the
-	 * kernel this is not a problem because there's a lock
-	 * to guarantee only one CPU will be kernel module at
-	 * the same time. This is bad in  terms of
-	 * performance, so version 2.2 changed it.
-	 */
-
 	status.busy = true;
-
-	/* Initialize the message. */
-	sprintf(
-		status.buf,
-		"If I told you once, I told you %d times - %s",
-		counter++,
-		"Hello, world\n");
-
-	/* The only reason we're allowed to do this sprintf
-	 * is because the maximum length of the message
-	 * (assuming 32 bit integers - up to 10 digits
-	 * with the minus sign) is less than DRV_BUF_SIZE, which
-	 * is 80. BE CAREFUL NOT TO OVERFLOW BUFFERS,
-	 * ESPECIALLY IN THE KERNEL!!!
-	 */
 
 	status.buf_ptr = status.buf;
 
