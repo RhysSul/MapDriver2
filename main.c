@@ -24,7 +24,7 @@ char *argv[];
 	// 1. Open the driver's device file ("/dev/asciimap")
 	int fd;
 	fd = open("/dev/asciimap", O_RDWR);
-	if (fd != 0)
+	if (fd < 0)
 	{
 		printf("Error opening device file\n", fd);
 		return -1;
