@@ -65,10 +65,7 @@ typedef struct _driver_status
 
 // 3. Define a static 50 x 50 char string in your driver with your team members initials.
 const char *initials =
-	" RS                                              \n"
-	" JM                                              \n"
-	" BP                                              \n"
-	" NO                                              \n"
+	" RS                                            JM\n"
 	"                                                 \n"
 	"                                                 \n"
 	"                                                 \n"
@@ -114,7 +111,10 @@ const char *initials =
 	"                                                 \n"
 	"                                                 \n"
 	"                                                 \n"
-	"                                                 \n";
+	"                                                 \n"
+	"                                                 \n"
+	"                                                 \n"
+	"BP                                             NO\n";
 
 /*
  * Driver funcitons' prototypes
