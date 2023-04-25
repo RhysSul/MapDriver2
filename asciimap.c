@@ -151,21 +151,18 @@ loff_t *offset;		/* Our offset in the file */
 		if (*status.buf_ptr == '\0')
 		{
 			// 6. Return an appropriate value and set errno appropriately if outside of the buffer’s bounds.
-			return -1;
+			return -2;
 		}
-		// 6. It writes from the point where the current pointer was left off after the last read, write, or lseek.
-		char ltr = *buffer;
-		// TODO: Swap to get user for assignment
-		*status.buf_ptr = ltr;
+		int err = get_user(*status.buf_ptr, buffer);
+		// TODO: Handle err
 		status.buf_ptr++;
 		buffer++;
-		length--;
 		written++;
-		// The write updates the current buffer pointer within the driver and potentially the length.
-		if (status.map_size_in_bytes < written)
-		{
-			status.map_size_in_bytes = written;
-		}
+		length--;
+	}
+	if (written > status.map_size_in_bytes)
+	{
+		status.map_size_in_bytes = written;
 	}
 
 #ifdef _DEBUG
