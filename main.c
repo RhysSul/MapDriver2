@@ -46,6 +46,10 @@ char *argv[];
 	printf("Opened device file\n");
 	// 2. Read and display data from the driver's device file (which should be your static, initials map) using read()
 	printDriver(driverFid);
+
+	// set pointer to beginning of file
+	lseek(driverFid, 0, SEEK_SET);
+
 	// 3. Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver).
 	char writeBuffer[BUFSIZ];
 	// TODO: Can we use memset here?
@@ -61,6 +65,10 @@ char *argv[];
 		printf("Error writing to device file %d\n", amount_written);
 		return -1;
 	}
+
+	// Set pointer to beginning of file
+	lseek(driverFid, 0, SEEK_SET);
+
 	printDriver(driverFid);
 }
 
