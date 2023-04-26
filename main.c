@@ -93,6 +93,13 @@ char *argv[];
 	printDriver(driverFid);
 
 	// ioctl check consistency succeed
+	printf("Checking consistency succeed\n");
+	char smallWriteBuffer[2];
+	smallWriteBuffer[0] = 'a';
+	smallWriteBuffer[1] = 'a';
+	write(driverFid, smallWriteBuffer, 2);
+	int res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY);
+	printf("Result of ioctl check consistency: %d\n", res);
 
 	/*
 		5. Uses lseek() on the driver's device file, using all 3 forms of the "whence" parameter, and demonstrates that they work correctly.
