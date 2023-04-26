@@ -109,10 +109,9 @@ loff_t *offset; /* Our offset in the file */
 		{
 			return 0;
 		}
-		char ltr = *status.buf_ptr;
-		put_user(ltr, buffer++);
-		*status.buf_ptr++;
-
+		put_user(*status.buf_ptr, buffer);
+		status.buf_ptr++;
+		buffer++;
 		length--;
 		bytes_read++;
 	}
