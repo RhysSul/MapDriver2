@@ -179,7 +179,6 @@ struct file *file;
 unsigned int ioctl_num; /* number and param for ioctl  */
 unsigned long ioctl_param;
 {
-	return 6;
 	switch (ioctl_num)
 	{
 	case IOCTL_RESET:
@@ -210,7 +209,7 @@ unsigned long ioctl_param;
 		}
 		break;
 	}
-	return 0;
+	return 0l;
 }
 
 /*
