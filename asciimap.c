@@ -233,7 +233,7 @@ static loff_t device_seek(struct file *file, loff_t offset, int whence)
 		status.buf_ptr = status.buf_ptr + offset;
 		break;
 	case SEEK_END:
-		status.buf_ptr = status.buf + status.map_size_in_bytes;
+		status.buf_ptr = (status.buf + status.map_size_in_bytes) - 1;
 		break;
 	}
 	return 0;
