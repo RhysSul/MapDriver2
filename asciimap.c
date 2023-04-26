@@ -1,3 +1,4 @@
+#include "common.h"
 #include "asciimap.h"
 
 int custom_copy(char *copy_to, const char *copy_from)
@@ -179,24 +180,20 @@ struct file *file;
 unsigned int ioctl_num; /* number and param for ioctl  */
 unsigned long ioctl_param;
 {
-	// TODO: Captilaize & convert to # define in header file
-	const int reset = 0;
-	const int zero_out = 1;
-	const int check_consistency = 2;
 	switch (ioctl_num)
 	{
-	case reset:
+	case IOCTL_RESET:
 		// 7. Implement ioctl() to allow resetting the map back to its original default (all blank except the area pre-filled with the static initials map).
 		status.map_size_in_bytes = custom_copy(status.buf, initials);
 		status.buf_ptr = status.buf;
 		break;
-	case zero_out:
+	case IOCTL_ZERO_OUT:
 		// 7. Write another ioctl option zero-out the entire buffer (with resetting the lengths and the pointer).
 		status.map_size_in_bytes = BSIZE_SQUARED;
 		custom_write_chars(status.buf, '\0', BSIZE_SQUARED);
 		status.buf_ptr = status.buf;
 		break;
-	case check_consistency:
+	case IOCTL_CHECK_CONSISTENCY:
 		// 7. Write another ioctl option to check map for consistency and report of it isn’t, e.g.,
 		// • byte length over width of the first line does not yield an integer
 		// • the map contains non-printable ASCII characters (< 32 in ASCII codes), including null, within

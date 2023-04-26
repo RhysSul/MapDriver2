@@ -44,13 +44,17 @@ char *argv[];
 		return -1;
 	}
 	printf("Opened device file\n");
-	// 2. Read and display data from the driver's device file (which should be your static, initials map) using read()
+	/*
+		2. Read and display data from the driver's device file (which should be your static, initials map) using read()
+	*/
 	printDriver(driverFid);
 
 	// set pointer to beginning of file
 	lseek(driverFid, 0, SEEK_SET);
 
-	// 3. Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver).
+	/*
+		3. Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver).
+	*/
 	char writeBuffer[BUFSIZ];
 	// TODO: Can we use memset here?
 	char toWrite = 'a';
@@ -70,6 +74,21 @@ char *argv[];
 	lseek(driverFid, 0, SEEK_SET);
 
 	printDriver(driverFid);
+
+	/*
+		4. Uses all 3 ioctl() features on the driver's device file, demonstrating results from each of them
+		(i.e., there should be a way to get the "Check Map" ioctl to succeed and to fail -- I want to see that both forms work).
+	*/
+
+	// ioctl reset
+	icotl(driverFid, IOCTL_RESET)
+
+	// ioctl check consistency
+	// ioctl zero out
+
+	/*
+		5. Uses lseek() on the driver's device file, using all 3 forms of the "whence" parameter, and demonstrates that they work correctly.
+	*/
 }
 
 /* EOF */
