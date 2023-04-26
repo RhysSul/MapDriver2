@@ -19,6 +19,9 @@
 /* Return codes */
 #define SUCCESS 0
 
+#define IOCTL_RESET = 0
+#define IOCTL_ZERO_OUT = 1
+#define IOCTL_CHECK_CONSISTENCY = 2
 /* Device Declarations **************************** */
 
 /* The maximum length of the message from the device */

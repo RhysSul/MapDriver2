@@ -9,10 +9,6 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#define IOCTL_RESET = 0
-#define IOCTL_ZERO_OUT = 1
-#define IOCTL_CHECK_CONSISTENCY = 2
-
 /* Genereic Buffer Size */
 /* may be made up from the air */
 #define BSIZE 1024

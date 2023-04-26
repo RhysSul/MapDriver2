@@ -1,4 +1,3 @@
-#include "common.h"
 #include "asciimap.h"
 
 int custom_copy(char *copy_to, const char *copy_from)
