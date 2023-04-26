@@ -104,7 +104,7 @@ char *argv[];
 	int res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY);
 	if (res < 0)
 	{
-		printf("Error checking consistency\n");
+		printf("Error checking consistency %d\n", res);
 		return -1;
 	}
 	printf("Consistency check succeeded\n");
