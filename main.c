@@ -161,7 +161,7 @@ char *argv[];
 	read(driverFid, lseekBufferRead, 1);
 	printf("Read from SEEK_CUR: %c\n", lseekBufferRead[0]);
 	// lseek SEEK_END
-	lseek(driverFid, 0, SEEK_END);
+	lseek(driverFid, -1, SEEK_END);
 	read(driverFid, lseekBufferRead, 1);
 	printf("Read from SEEK_END: %c\n", lseekBufferRead[0]);
 }
