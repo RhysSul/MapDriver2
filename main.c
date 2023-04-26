@@ -89,7 +89,7 @@ char *argv[];
 	// ioctl zero out
 
 	printf("Zeroing out driver\n");
-	ictl(driverFid, IOCTL_ZERO_OUT);
+	icotl(driverFid, IOCTL_ZERO_OUT);
 	printDriver(driverFid);
 
 	// ioctl check consistency succeed
