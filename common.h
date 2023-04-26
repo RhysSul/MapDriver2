@@ -12,9 +12,9 @@
 /* Genereic Buffer Size */
 /* may be made up from the air */
 #define BSIZE 1024
-#define IOCTL_RESET = 0
-#define IOCTL_ZERO_OUT = 1
-#define IOCTL_CHECK_CONSISTENCY = 2
+#define IOCTL_RESET 0
+#define IOCTL_ZERO_OUT 1
+#define IOCTL_CHECK_CONSISTENCY 2
 /* All these are to be treated as blanks or delimiters */
 #define BLANK_CHARS " \n\t\r'"
 
