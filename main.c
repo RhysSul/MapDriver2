@@ -18,7 +18,7 @@ void printDriver(int driverFid)
 	if (amount_read < 0)
 	{
 		printf("Error reading from device file\n");
-		return -1;
+		return;
 	}
 	printf("Read %d bytes from device file\n", amount_read);
 	printf("%s\n", buffer);
@@ -116,11 +116,11 @@ char *argv[];
 
 	// ioctl check consistency fail
 	printf("Checking consistency fail\n");
-	char smallWriteBuffer[2];
-	smallWriteBuffer[0] = 21;
-	smallWriteBuffer[1] = 30;
+	char smallWriteBufferInvalid[2];
+	smallWriteBufferInvalid[0] = 21;
+	smallWriteBufferInvalid[1] = 30;
 	lseek(driverFid, 0, SEEK_SET);
-	write(driverFid, smallWriteBuffer, 2);
+	write(driverFid, smallWriteBufferInvalid, 2);
 	lseek(driverFid, 0, SEEK_SET);
 	printDriver(driverFid);
 	lseek(driverFid, 0, SEEK_SET);
