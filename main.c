@@ -144,13 +144,16 @@ char *argv[];
 	write(driverFid, lseekBuffer, BUFSIZ);
 	printDriver(driverFid);
 
+	char lseekBufferRead[BUFSIZ];
 	// lseek SEEK_SET
 	lseek(driverFid, 0, SEEK_SET);
-	char lseekBufferRead[BUFSIZ];
 	read(driverFid, lseekBufferRead, 1);
 	printf("Read from SEEK_SET: %c\n", lseekBufferRead[0]);
 	// lseek SEEK_CUR
 	// lseek SEEK_END
+	lseek(driverFid, 0, SEEK_END);
+	read(driverFid, lseekBufferRead, 1);
+	printf("Read from SEEK_END: %c\n", lseekBufferRead[0]);
 }
 
 /* EOF */
