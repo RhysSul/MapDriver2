@@ -148,6 +148,7 @@ loff_t *offset;		/* Our offset in the file */
 	int written = 0;
 	while (length > 0)
 	{
+		printk("asciimap::device_write() - Writing: [%c]\n", *buffer);
 		if (*status.buf_ptr == '\0')
 		{
 			// 6. Return an appropriate value and set errno appropriately if outside of the buffer’s bounds.
