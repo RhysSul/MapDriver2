@@ -51,12 +51,10 @@ char *argv[];
 	*/
 	printDriver(driverFid);
 
-	// set pointer to beginning of file
-	lseek(driverFid, 0, SEEK_SET);
-
 	/*
 		3. Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver).
 	*/
+
 	char writeBuffer[BUFSIZ];
 	// TODO: Can we use memset here?
 	char toWrite = 'a';
@@ -64,6 +62,7 @@ char *argv[];
 	{
 		writeBuffer[i] = toWrite;
 	}
+	lseek(driverFid, 0, SEEK_SET);
 	int amount_written = write(driverFid, writeBuffer, BUFSIZ);
 	printf("Wrote %d bytes to device file\n", amount_written);
 	if (amount_written < 0)
@@ -72,9 +71,7 @@ char *argv[];
 		return -1;
 	}
 
-	// Set pointer to beginning of file
 	lseek(driverFid, 0, SEEK_SET);
-
 	printDriver(driverFid);
 
 	/*
@@ -84,11 +81,13 @@ char *argv[];
 
 	// ioctl reset
 	printf("Resetting driver\n");
+	lseek(driverFid, 0, SEEK_SET);
 	ioctl(driverFid, IOCTL_RESET);
 	printDriver(driverFid);
 	// ioctl zero out
 
 	printf("Zeroing out driver\n");
+	lseek(driverFid, 0, SEEK_SET);
 	ioctl(driverFid, IOCTL_ZERO_OUT);
 	printDriver(driverFid);
 
@@ -97,7 +96,11 @@ char *argv[];
 	char smallWriteBuffer[2];
 	smallWriteBuffer[0] = 'a';
 	smallWriteBuffer[1] = 'a';
+	lseek(driverFid, 0, SEEK_SET);
 	write(driverFid, smallWriteBuffer, 2);
+	lseek(driverFid, 0, SEEK_SET);
+	printDriver(driverFid);
+	lseek(driverFid, 0, SEEK_SET);
 	int res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY);
 	printf("Result of ioctl check consistency: %d\n", res);
 
