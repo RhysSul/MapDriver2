@@ -48,8 +48,12 @@ char *argv[];
 	printDriver(driverFid);
 	// 3. Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver).
 	char writeBuffer[BUFSIZ];
+	// TODO: Can we use memset here?
 	char toWrite = 'a';
-	memset(writeBuffer, toWrite, BUFSIZ);
+	for (int i = 0; i < BUFSIZ; i++)
+	{
+		writeBuffer[i] = toWrite;
+	}
 	int amount_written = write(driverFid, writeBuffer, BUFSIZ);
 	if (amount_written < 0)
 	{
