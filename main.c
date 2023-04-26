@@ -102,7 +102,12 @@ char *argv[];
 	printDriver(driverFid);
 	lseek(driverFid, 0, SEEK_SET);
 	int res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY);
-	printf("Result of ioctl check consistency: %d\n", res);
+	if (res < 0)
+	{
+		printf("Error checking consistency\n");
+		return -1;
+	}
+	printf("Consistency check succeeded\n");
 
 	/*
 		5. Uses lseek() on the driver's device file, using all 3 forms of the "whence" parameter, and demonstrates that they work correctly.
