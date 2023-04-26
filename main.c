@@ -130,6 +130,23 @@ char *argv[];
 	/*
 		5. Uses lseek() on the driver's device file, using all 3 forms of the "whence" parameter, and demonstrates that they work correctly.
 	*/
+
+	// Setup the buffer with an A at the beginning, Z at the end, and 0s in the middle
+
+	char lseekBuffer[BUFSIZ];
+	lseekBuffer[0] = 'A';
+	lseekBuffer[BUFSIZ - 1] = 'Z';
+	for (int i = 1; i < BUFSIZ - 1; i++)
+	{
+		lseekBuffer[i] = '0';
+	}
+	// lseek SEEK_SET
+	lseek(driverFid, 0, SEEK_SET);
+	char lseekBufferRead[BUFSIZ];
+	read(driverFid, lseekBufferRead, 1);
+	printf("Read from SEEK_SET: %c\n", lseekBufferRead[0]);
+	// lseek SEEK_CUR
+	// lseek SEEK_END
 }
 
 /* EOF */
