@@ -134,13 +134,13 @@ char *argv[];
 	// Setup the buffer with an A at the beginning, Z at the end, and 0s in the middle
 
 	char lseekBuffer[BUFSIZ];
-	lseekBuffer[0] = 'A';
-	lseekBuffer[30] = 'D';
-	lseekBuffer[BUFSIZ - 1] = 'Z';
-	for (int i = 1; i < BUFSIZ - 1; i++)
+	for (int i = 0; i < BUFSIZ; i++)
 	{
 		lseekBuffer[i] = '0';
 	}
+	lseekBuffer[0] = 'A';
+	lseekBuffer[BUFSIZ - 1] = 'Z';
+	lseekBuffer[30] = 'D';
 	lseek(driverFid, 0, SEEK_SET);
 	write(driverFid, lseekBuffer, BUFSIZ);
 	printDriver(driverFid);
@@ -152,7 +152,7 @@ char *argv[];
 	printf("Read from SEEK_SET: %c\n", lseekBufferRead[0]);
 	// lseek SEEK_CUR
 	lseek(driverFid, 0, SEEK_SET);
-	lseek(driverFid, 31, SEEK_CUR);
+	lseek(driverFid, 30, SEEK_CUR);
 	read(driverFid, lseekBufferRead, 1);
 	printf("Read from SEEK_CUR: %c\n", lseekBufferRead[0]);
 	// lseek SEEK_END
