@@ -193,6 +193,7 @@ unsigned long ioctl_param;
 		status.buf_ptr = status.buf;
 		break;
 	case IOCTL_CHECK_CONSISTENCY:
+		return 0;
 		// 7. Write another ioctl option to check map for consistency and report of it isn’t, e.g.,
 		// • byte length over width of the first line does not yield an integer
 		// • the map contains non-printable ASCII characters (< 32 in ASCII codes), including null, within
