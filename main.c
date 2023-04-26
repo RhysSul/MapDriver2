@@ -83,10 +83,16 @@ char *argv[];
 	*/
 
 	// ioctl reset
+	printf("Resetting driver\n");
 	ioctl(driverFid, IOCTL_RESET);
 	printDriver(driverFid);
-	// ioctl check consistency
 	// ioctl zero out
+
+	printf("Zeroing out driver\n");
+	ictl(driverFid, IOCTL_ZERO_OUT);
+	printDriver(driverFid);
+
+	// ioctl check consistency succeed
 
 	/*
 		5. Uses lseek() on the driver's device file, using all 3 forms of the "whence" parameter, and demonstrates that they work correctly.
