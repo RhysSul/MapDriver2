@@ -154,7 +154,8 @@ loff_t *offset;		/* Our offset in the file */
 	{
 		status.map_size_in_bytes = written;
 	}
-
+	// set the last char to null
+	*status.buf_ptr = '\0';
 #ifdef _DEBUG
 	printk(
 		"asciimap::device_write() - Length: [%d], Buf: [%s]\n",
