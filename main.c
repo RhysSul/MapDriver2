@@ -84,7 +84,7 @@ char *argv[];
 
 	// ioctl reset
 	ioctl(driverFid, IOCTL_RESET);
-
+	printDriver(driverFid);
 	// ioctl check consistency
 	// ioctl zero out
 
