@@ -151,6 +151,7 @@ loff_t *offset;		/* Our offset in the file */
 		if (*status.buf_ptr == '\0')
 		{
 			// 6. Return an appropriate value and set errno appropriately if outside of the buffer’s bounds.
+			printk("asciimap::device_write() - Outside of the buffer’s bounds\n");
 			return -2;
 		}
 		int err = get_user(*status.buf_ptr, buffer);
