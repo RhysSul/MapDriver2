@@ -83,7 +83,7 @@ char *argv[];
 	*/
 
 	// ioctl reset
-	icotl(driverFid, IOCTL_RESET)
+	ioctl(driverFid, IOCTL_RESET);
 
 	// ioctl check consistency
 	// ioctl zero out
