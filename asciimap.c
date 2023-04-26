@@ -179,7 +179,6 @@ struct file *file;
 unsigned int ioctl_num; /* number and param for ioctl  */
 unsigned long ioctl_param;
 {
-	return 0;
 	switch (ioctl_num)
 	{
 	case IOCTL_RESET:
@@ -202,6 +201,10 @@ unsigned long ioctl_param;
 		while (*ptr && *ptr != '\0')
 		{
 			// the map contains non-printable ASCII characters (< 32 in ASCII codes), including null, within its current length.
+			if (*ptr < 32)
+			{
+				return -2;
+			}
 			ptr++;
 		}
 		break;
