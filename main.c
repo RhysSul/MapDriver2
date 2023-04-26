@@ -140,6 +140,10 @@ char *argv[];
 	{
 		lseekBuffer[i] = '0';
 	}
+	lseek(driverFid, 0, SEEK_SET);
+	write(driverFid, lseekBuffer, BUFSIZ);
+	printDriver(driverFid);
+
 	// lseek SEEK_SET
 	lseek(driverFid, 0, SEEK_SET);
 	char lseekBufferRead[BUFSIZ];
