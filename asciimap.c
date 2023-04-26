@@ -104,11 +104,6 @@ loff_t *offset; /* Our offset in the file */
 	/* Actually put the data into the buffer */
 	while (length > 0)
 	{
-		// 5. attempts to read beyond the last line, would simply return 0 bytes
-		if (*status.buf_ptr == '\0')
-		{
-			return 0;
-		}
 		put_user(*status.buf_ptr, buffer);
 		status.buf_ptr++;
 		buffer++;
