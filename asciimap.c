@@ -201,14 +201,6 @@ unsigned long ioctl_param;
 		while (*ptr && *ptr != '\0')
 		{
 			// the map contains non-printable ASCII characters (< 32 in ASCII codes), including null, within its current length.
-			if (*ptr == 0)
-			{
-				return -2;
-			}
-			if (*ptr < 32)
-			{
-				return -3;
-			}
 			ptr++;
 		}
 		break;
