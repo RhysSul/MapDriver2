@@ -207,7 +207,7 @@ unsigned long ioctl_param;
 			}
 			if (*ptr < 32)
 			{
-				return -1;
+				return -3;
 			}
 			ptr++;
 		}
