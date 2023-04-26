@@ -38,7 +38,7 @@ int argc;
 char *argv[];
 {
 	// 1. Open the driver's device file ("/dev/asciimap")
-	int driverFid;
+	int driverFid, res;
 	driverFid = open("/dev/asciimap", O_RDWR);
 	if (driverFid < 0)
 	{
@@ -82,13 +82,23 @@ char *argv[];
 	// ioctl reset
 	printf("Resetting driver\n");
 	lseek(driverFid, 0, SEEK_SET);
-	ioctl(driverFid, IOCTL_RESET);
+	res = ioctl(driverFid, IOCTL_RESET);
+	if (res < 0)
+	{
+		printf("Error resetting driver %d\n", res);
+		return -1;
+	}
 	printDriver(driverFid);
 	// ioctl zero out
 
 	printf("Zeroing out driver\n");
 	lseek(driverFid, 0, SEEK_SET);
-	ioctl(driverFid, IOCTL_ZERO_OUT);
+	res = ioctl(driverFid, IOCTL_ZERO_OUT);
+	if (res < 0)
+	{
+		printf("Error zeroing out driver %d\n", res);
+		return -1;
+	}
 	printDriver(driverFid);
 
 	// ioctl check consistency succeed
@@ -101,7 +111,7 @@ char *argv[];
 	lseek(driverFid, 0, SEEK_SET);
 	printDriver(driverFid);
 	lseek(driverFid, 0, SEEK_SET);
-	int res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY, 0);
+	res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY, 0);
 	if (res < 0)
 	{
 		printf("Error checking consistency %d\n", res);
