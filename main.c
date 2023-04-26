@@ -103,13 +103,13 @@ char *argv[];
 
 	// ioctl check consistency succeed
 	printf("Checking consistency succeed\n");
-	char smallWriteBuffer[2];
-	smallWriteBuffer[0] = 'a';
-	smallWriteBuffer[1] = 'a';
-	lseek(driverFid, 0, SEEK_SET);
-	write(driverFid, smallWriteBuffer, 2);
-	lseek(driverFid, 0, SEEK_SET);
-	printDriver(driverFid);
+	// char smallWriteBuffer[2];
+	// smallWriteBuffer[0] = 'a';
+	// smallWriteBuffer[1] = 'a';
+	// lseek(driverFid, 0, SEEK_SET);
+	// write(driverFid, smallWriteBuffer, 2);
+	// lseek(driverFid, 0, SEEK_SET);
+	// printDriver(driverFid);
 	lseek(driverFid, 0, SEEK_SET);
 	res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY, 0);
 	if (res < 0)
