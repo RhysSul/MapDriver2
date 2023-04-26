@@ -4,6 +4,7 @@
         "string": "c",
         "string_view": "c",
         "asciimap.h": "c",
-        "fs.h": "c"
+        "fs.h": "c",
+        "stdbool.h": "c"
     }
 }

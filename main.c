@@ -37,7 +37,7 @@ int main(argc, argv)
 int argc;
 char *argv[];
 {
-	// 1. Open the driver's device file ("/dev/asciimap")
+	printf("=== 1. Open the driver's device file (/dev/asciimap) ===\n");
 	int driverFid, res;
 	driverFid = open("/dev/asciimap", O_RDWR);
 	if (driverFid < 0)
@@ -49,12 +49,15 @@ char *argv[];
 	/*
 		2. Read and display data from the driver's device file (which should be your static, initials map) using read()
 	*/
+
+	printf("=== 2. Read and display data from the driver's device file (which should be your static, initials map) using read() ===\n");
 	printDriver(driverFid);
 
 	/*
 		3. Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver).
 	*/
 
+	printf("=== 3. Writes data to it using write(), which you will subsequently read using read (i.e., it should be apparent that the data you wrote ended up being stored in the driver). ===\n");
 	char writeBuffer[BUFSIZ];
 	// TODO: Can we use memset here?
 	char toWrite = 'a';
@@ -79,8 +82,9 @@ char *argv[];
 		(i.e., there should be a way to get the "Check Map" ioctl to succeed and to fail -- I want to see that both forms work).
 	*/
 
+	printf("=== 4. Uses all 3 ioctl() features on the driver's device file, demonstrating results from each of them ===\n");
 	// ioctl reset
-	printf("Resetting driver\n");
+	printf("--- ioctl reset ---\n");
 	lseek(driverFid, 0, SEEK_SET);
 	res = ioctl(driverFid, IOCTL_RESET);
 	if (res < 0)
@@ -91,7 +95,7 @@ char *argv[];
 	printDriver(driverFid);
 	// ioctl zero out
 
-	printf("Zeroing out driver\n");
+	printf("--- ioctl zero out ---\n");
 	lseek(driverFid, 0, SEEK_SET);
 	res = ioctl(driverFid, IOCTL_ZERO_OUT);
 	if (res < 0)
@@ -102,7 +106,7 @@ char *argv[];
 	printDriver(driverFid);
 
 	// ioctl check consistency succeed
-	printf("Checking consistency succeed\n");
+	printf("--- ioctl check consistency succeed ---\n");
 	char smallWriteBuffer[2];
 	smallWriteBuffer[0] = 'a';
 	smallWriteBuffer[1] = 'a';
@@ -115,7 +119,7 @@ char *argv[];
 	printf("Consistency check result: %d\n", res);
 
 	// ioctl check consistency fail
-	printf("Checking consistency fail\n");
+	printf("--- ioctl check consistency fail ---\n");
 	char smallWriteBufferInvalid[2];
 	smallWriteBufferInvalid[0] = 21;
 	smallWriteBufferInvalid[1] = 30;
@@ -131,6 +135,7 @@ char *argv[];
 		5. Uses lseek() on the driver's device file, using all 3 forms of the "whence" parameter, and demonstrates that they work correctly.
 	*/
 
+	printf("=== 5. Uses lseek() on the driver's device file, using all 3 forms of the \"whence\" parameter, and demonstrates that they work correctly. ===\n");
 	// Setup the buffer with an A at the beginning, Z at the end, and 0s in the middle
 
 	char lseekBuffer[BUFSIZ];
