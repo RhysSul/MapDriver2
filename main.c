@@ -101,7 +101,7 @@ char *argv[];
 	lseek(driverFid, 0, SEEK_SET);
 	printDriver(driverFid);
 	lseek(driverFid, 0, SEEK_SET);
-	int res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY);
+	int res = ioctl(driverFid, IOCTL_CHECK_CONSISTENCY, 0);
 	if (res < 0)
 	{
 		printf("Error checking consistency %d\n", res);
