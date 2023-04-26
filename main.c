@@ -55,12 +55,12 @@ char *argv[];
 		writeBuffer[i] = toWrite;
 	}
 	int amount_written = write(driverFid, writeBuffer, BUFSIZ);
+	printf("Wrote %d bytes to device file\n", amount_written);
 	if (amount_written < 0)
 	{
-		printf("Error writing to device file %d\n", driverFid);
+		printf("Error writing to device file %d\n", amount_written);
 		return -1;
 	}
-	printf("Wrote %d bytes to device file\n", amount_written);
 	printDriver(driverFid);
 }
 
