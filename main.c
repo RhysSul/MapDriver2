@@ -156,8 +156,8 @@ char *argv[];
 	read(driverFid, lseekBufferRead, 1);
 	printf("Read from SEEK_SET: %c\n", lseekBufferRead[0]);
 	// lseek SEEK_CUR
-	lseek(driverFid, 0, SEEK_SET);
-	lseek(driverFid, 30, SEEK_CUR);
+	lseek(driverFid, 30, SEEK_SET);
+	lseek(driverFid, 0, SEEK_CUR);
 	read(driverFid, lseekBufferRead, 1);
 	printf("Read from SEEK_CUR: %c\n", lseekBufferRead[0]);
 	// lseek SEEK_END
