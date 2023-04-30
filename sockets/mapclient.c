@@ -65,6 +65,7 @@ int readMap(int socketFd)
     {
         // get the map size
         struct mapRequest request;
+        printf("Reading map size\n");
         res = read(socketFd, &request, sizeof(request));
         if (res < 0)
         {
@@ -73,6 +74,7 @@ int readMap(int socketFd)
         }
         // read the map
         char map[request.width * request.height];
+        printf("Reading map\n");
         res = read(socketFd, map, sizeof(map));
         if (res < 0)
         {
