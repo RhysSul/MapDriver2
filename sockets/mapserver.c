@@ -30,9 +30,26 @@ int main(void)
     int listenResult = listen(socketFd, 1);
     while (1)
     {
+        /*
+        The server accepts, spawns a child, and reads from the socket and interprets the client’s request
+        for its validity.
+        */
         int clientFd = accept(socketFd, NULL, NULL);
+        pid_t pid = fork();
+        if (pid < 0)
+        {
+            printf("fork failed\n");
+            exit(1);
+        }
         while (1)
         {
+            /*
+            The server either replies with an ‘M’ or ‘E’ messages, i.e., the map or error to the client’s socket.
+
+            The ‘M’ message in the protocol always has ‘M’ followed by W IDT H and HEIGHT, followed by the entire map.
+
+            The ‘E’ message is followed by a single int, which is the length of the error message string that follows.
+            */
             char action = 0;
             int res = read(clientFd, &action, sizeof(action));
             if (res < 0)
@@ -48,6 +65,7 @@ int main(void)
                 printf("map request\n");
                 struct mapRequest request;
                 read(clientFd, &request, sizeof(request));
+                write(clientFd, "M", 1);
                 printf("width: %d\n", request.width);
                 printf("height: %d\n", request.height);
                 shutdown(clientFd, SHUT_RDWR);

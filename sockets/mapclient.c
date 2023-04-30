@@ -14,9 +14,8 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 #include <sys/prctl.h>
-#define WIDTH_ONLY 1
 
-int initConnection(int socketFd)
+int sendM(int socketFd)
 {
     int res = 0;
     // Sends a request consisting of the ASCII character ‘M’
@@ -28,24 +27,50 @@ int initConnection(int socketFd)
         exit(3);
     }
 
-// Followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
-#ifdef WIDTH_ONLY
+    // Followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
+
+    struct mapRequest request = {
+        .width = 10,
+        .height = 10,
+    };
+
     res = write(
         socketFd,
-        30,
-        sizeof(int));
-#else
-    int width = 10;
-    int height = 10;
-    res = write(
-        socketFd,
-        &width,
-        sizeof(width));
-#endif
+        &request,
+        sizeof(request));
     if (res < 0)
     {
         printf("Error sending map request\n");
         exit(3);
+    }
+}
+
+int readM(int socketFd)
+{
+    // (c) The client reads and interprets the reply. A map is output then to STDOUT, the error to STDERR.
+
+    char action;
+    int res = read(socketFd, &action, sizeof(action));
+    if (res < 0)
+    {
+        printf("Error reading map request\n");
+        exit(4);
+    }
+
+    switch (res)
+    {
+    case 'M':
+    {
+        printf("Map\n");
+        break;
+    }
+    case 'E':
+    {
+
+        break;
+    }
+    default:
+        break;
     }
 }
 
@@ -79,5 +104,5 @@ int main(int argc, char *argv[])
         exit(2);
     }
 
-    initConnection(socketFd);
+    sendM(socketFd);
 }
