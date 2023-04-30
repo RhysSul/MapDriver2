@@ -105,4 +105,5 @@ int main(int argc, char *argv[])
     }
 
     sendM(socketFd);
+    readM(socketFd);
 }
