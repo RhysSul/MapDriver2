@@ -24,7 +24,11 @@ int main(int argc, char *argv[])
 
     printf("Creating socket\n");
     int socketFd = socket(AF_INET, SOCK_STREAM, 0);
-
+    if (socketFd < 0)
+    {
+        printf("Error creating socket\n");
+        exit(1);
+    }
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
 
@@ -34,14 +38,31 @@ int main(int argc, char *argv[])
     printf("Connecting to server\n");
     int connectResult = connect(socketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
 
+    if (connectResult < 0)
+    {
+        printf("Error connecting to server\n");
+        exit(2);
+    }
+
+    int res = 0;
     printf("Sending map request\n");
-    write(socketFd, "M", 1);
+    res = write(socketFd, "M", 1);
+    if (res < 0)
+    {
+        printf("Error sending map request\n");
+        exit(3);
+    }
     struct mapRequest request = {
         .width = 10,
         .height = 10,
     };
-    write(
+    res = write(
         socketFd,
         &request,
         sizeof(request));
+    if (res < 0)
+    {
+        printf("Error sending map request\n");
+        exit(3);
+    }
 }
