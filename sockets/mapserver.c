@@ -65,6 +65,7 @@ int main(void)
                 printf("map request\n");
                 struct mapRequest request;
                 read(clientFd, &request, sizeof(request));
+                printf("Sending map\n");
                 write(clientFd, "M", 1);
                 printf("width: %d\n", request.width);
                 printf("height: %d\n", request.height);
