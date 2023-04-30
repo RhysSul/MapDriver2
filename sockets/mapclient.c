@@ -57,7 +57,7 @@ int readMap(int socketFd)
         printf("Error reading map request\n");
         exit(4);
     }
-    print("action: %c\n", action);
+    printf("action: %c\n", action);
 
     switch (action)
     {
