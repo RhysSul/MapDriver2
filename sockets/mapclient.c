@@ -32,7 +32,7 @@ int initConnection(int socketFd)
 #ifdef WIDTH_ONLY
     res = write(
         socketFd,
-        0,
+        30,
         sizeof(int));
 #else
     int width = 10;
