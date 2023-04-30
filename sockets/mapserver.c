@@ -31,11 +31,11 @@ int main(void)
     while (1)
     {
         int clientFd = accept(socketFd, NULL, NULL);
+        char action;
         while (1)
         {
-            int cmd;
-            read(clientFd, &cmd, sizeof(cmd));
-            printf("cmd: %d\n", cmd);
+            read(clientFd, &action, sizeof(action));
+            printf("cmd: %d\n", action);
         }
     }
 }

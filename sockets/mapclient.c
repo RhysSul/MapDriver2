@@ -15,12 +15,42 @@
 #include <arpa/inet.h>
 #include <sys/prctl.h>
 
+int initConnection(int socketFd)
+{
+    int res = 0;
+    // Sends a request consisting of the ASCII character ‘M’
+    printf("Sending map request\n");
+    res = write(socketFd, "M", 1);
+    if (res < 0)
+    {
+        printf("Error sending map request\n");
+        exit(3);
+    }
+
+    // Followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
+    struct mapRequest request = {
+        .width = 10,
+        .height = 10,
+    };
+
+    res = write(
+        socketFd,
+        &request,
+        sizeof(request));
+    if (res < 0)
+    {
+        printf("Error sending map request\n");
+        exit(3);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     printf("Starting client\n");
     struct sockaddr_in serverAddress;
     char *ipAddress = IP;
     int port = PORT;
+    // TODO: Allow IP override via argv (on both client and server programs).
 
     printf("Creating socket\n");
     int socketFd = socket(AF_INET, SOCK_STREAM, 0);
@@ -44,25 +74,5 @@ int main(int argc, char *argv[])
         exit(2);
     }
 
-    int res = 0;
-    printf("Sending map request\n");
-    res = write(socketFd, "M", 1);
-    if (res < 0)
-    {
-        printf("Error sending map request\n");
-        exit(3);
-    }
-    struct mapRequest request = {
-        .width = 10,
-        .height = 10,
-    };
-    res = write(
-        socketFd,
-        &request,
-        sizeof(request));
-    if (res < 0)
-    {
-        printf("Error sending map request\n");
-        exit(3);
-    }
+    initConnection(socketFd);
 }
