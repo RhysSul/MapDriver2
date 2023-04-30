@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
     printf("Starting client\n");
     struct sockaddr_in serverAddress;
-    int ipAddress = IP;
+    char *ipAddress = IP;
     int port = PORT;
 
     printf("Creating socket\n");
