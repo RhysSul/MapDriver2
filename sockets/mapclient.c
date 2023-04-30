@@ -29,11 +29,9 @@ int generateMap(int socketFd)
 
     // Followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
 
-    struct mapRequest request = {
-        .width = 10,
-        .height = 10,
-    };
-
+    struct mapRequest request;
+    request.width = 10;
+    request.height = 10;
     res = write(
         socketFd,
         &request,
