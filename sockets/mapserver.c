@@ -71,6 +71,25 @@ int main(void)
                 printf("Sending map\n");
                 write(clientFd, "M", 1);
 
+                // Generate Map:
+                int driverFid, res;
+                driverFid = open("/dev/asciimap", O_RDWR);
+                if (driverFid < 0)
+                {
+                    printf("Error opening device file\n", driverFid);
+                    return -1;
+                }
+                char buffer[BUFSIZ];
+                int amount_read = read(driverFid, buffer, BUFSIZ);
+                if (amount_read < 0)
+                {
+                    printf("Error reading from device file\n");
+                    return -1;
+                }
+
+                // Send the map:
+                write(clientFd, buffer, amount_read);
+
                 shutdown(clientFd, SHUT_RDWR);
                 break;
             }
