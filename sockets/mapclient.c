@@ -28,4 +28,13 @@ int main(int argc, char *argv[])
     inet_pton(AF_INET, ipAddress, &serverAddress.sin_addr);
 
     int connectResult = connect(socketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
+    write(socketFd, "M", 1);
+    struct mapRequest request = {
+        .width = 10,
+        .height = 10,
+    };
+    write(
+        socketFd,
+        &request,
+        sizeof(request));
 }

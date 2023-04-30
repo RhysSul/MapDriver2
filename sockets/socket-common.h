@@ -5,3 +5,9 @@
 
 #define PORT 23032
 #define IP "127.0.0.1"
+
+typedef struct mapRequest
+{
+    int width;
+    int height;
+};
