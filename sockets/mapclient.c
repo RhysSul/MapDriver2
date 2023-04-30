@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
     printf("Creating socket\n");
     int socketFd = socket(AF_INET, SOCK_STREAM, 0);
 
-    memset(&serverAddress, 0, sizeof(serverAddress)); // fix segfault
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
 
