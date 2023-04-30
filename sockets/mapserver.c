@@ -33,7 +33,7 @@ int main(void)
         int clientFd = accept(socketFd, NULL, NULL);
         while (1)
         {
-            char action;
+            char action = 0;
             int res = read(clientFd, &action, sizeof(action));
             if (res < 0)
             {
