@@ -79,6 +79,15 @@ int main(void)
                     printf("Error opening device file\n", driverFid);
                     return -1;
                 }
+
+                // send dimensions
+                res = write(driverFid, &request, sizeof(request));
+                if (res < 0)
+                {
+                    printf("Error writing to device file\n");
+                    return -1;
+                }
+
                 char buffer[BUFSIZ];
                 int amount_read = read(driverFid, buffer, BUFSIZ);
                 if (amount_read < 0)

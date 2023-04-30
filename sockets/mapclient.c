@@ -63,7 +63,25 @@ int readMap(int socketFd)
     {
     case 'M':
     {
-        printf("Map\n");
+        // get the map size
+        struct mapRequest request;
+        res = read(socketFd, &request, sizeof(request));
+        if (res < 0)
+        {
+            printf("Error reading map request\n");
+            exit(4);
+        }
+        // read the map
+        char map[request.width * request.height];
+        res = read(socketFd, map, sizeof(map));
+        if (res < 0)
+        {
+            printf("Error reading map request\n");
+            exit(4);
+        }
+        // print the map
+        printf("%s\n", map);
+
         break;
     }
     case 'E':
