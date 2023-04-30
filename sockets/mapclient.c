@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
 
+    printf("Converting IP address\n");
     inet_pton(AF_INET, ipAddress, &serverAddress.sin_addr);
 
     printf("Connecting to server\n");
