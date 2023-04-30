@@ -34,7 +34,12 @@ int main(void)
         char action;
         while (1)
         {
-            read(clientFd, &action, sizeof(action));
+            int res = read(clientFd, &action, sizeof(action));
+            if (res < 0)
+            {
+                printf("client disconnected\n");
+                break;
+            }
             printf("cmd: %d\n", action);
             switch (action)
             {
