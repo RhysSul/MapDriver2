@@ -17,17 +17,23 @@
 
 int main(int argc, char *argv[])
 {
+    printf("Starting client\n");
     struct sockaddr_in serverAddress;
     int ipAddress = IP;
     int port = PORT;
 
+    printf("Creating socket\n");
     int socketFd = socket(AF_INET, SOCK_STREAM, 0);
 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
+
     inet_pton(AF_INET, ipAddress, &serverAddress.sin_addr);
 
+    printf("Connecting to server\n");
     int connectResult = connect(socketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
+
+    printf("Sending map request\n");
     write(socketFd, "M", 1);
     struct mapRequest request = {
         .width = 10,
