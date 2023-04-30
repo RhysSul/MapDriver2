@@ -73,8 +73,8 @@ int readMap(int socketFd)
             exit(4);
         }
         // read the map
+        printf("Reading map of size %d x %d\n", request.width, request.height);
         char map[request.width * request.height];
-        printf("Reading map\n");
         res = read(socketFd, map, sizeof(map));
         if (res < 0)
         {
