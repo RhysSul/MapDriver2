@@ -31,9 +31,9 @@ int main(void)
     while (1)
     {
         int clientFd = accept(socketFd, NULL, NULL);
-        char action;
         while (1)
         {
+            char action;
             int res = read(clientFd, &action, sizeof(action));
             if (res < 0)
             {
