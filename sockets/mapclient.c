@@ -57,8 +57,9 @@ int readMap(int socketFd)
         printf("Error reading map request\n");
         exit(4);
     }
+    print("action: %c\n", action);
 
-    switch (res)
+    switch (action)
     {
     case 'M':
     {
