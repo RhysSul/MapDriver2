@@ -5,13 +5,11 @@ INCLUDE=-I. -I..
 FLAGS=-Wall -Wextra
 
 
-SERVER_EXE=mapserverg
-SERVER_C=mapserverg.c
+SERVER_EXE=mapserver
+SERVER_C=mapserver.c
 
-OBJ=mapserver.o
-
-CLIENT_EXE=mapclientg
-CLIENT_C=mapclientg.c
+CLIENT_EXE=mapclient
+CLIENT_C=mapclient.c
 
 
 all: $(SERVER_EXE) $(CLIENT_EXE)
