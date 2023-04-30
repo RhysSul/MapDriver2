@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 #include <sys/prctl.h>
+#define WIDTH_ONLY 1
 
 int initConnection(int socketFd)
 {
@@ -27,16 +28,20 @@ int initConnection(int socketFd)
         exit(3);
     }
 
-    // Followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
-    struct mapRequest request = {
-        .width = 10,
-        .height = 10,
-    };
-
+// Followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
+#ifdef WIDTH_ONLY
     res = write(
         socketFd,
-        &request,
-        sizeof(request));
+        0,
+        sizeof(int));
+#else
+    int width = 10;
+    int height = 10;
+    res = write(
+        socketFd,
+        &width,
+        sizeof(width));
+#endif
     if (res < 0)
     {
         printf("Error sending map request\n");
