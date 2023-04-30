@@ -36,6 +36,17 @@ int main(void)
         {
             read(clientFd, &action, sizeof(action));
             printf("cmd: %d\n", action);
+            switch (action)
+            {
+            case 'M':
+            {
+                printf("map request\n");
+                struct mapRequest request;
+                read(clientFd, &request, sizeof(request));
+                printf("width: %d\n", request.width);
+                printf("height: %d\n", request.height);
+                break;
+            }
+            }
         }
     }
-}
