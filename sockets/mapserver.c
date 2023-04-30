@@ -47,7 +47,12 @@ int main(void)
                 printf("height: %d\n", request.height);
                 break;
             }
+            default:
+            {
+                printf("unknown command\n");
+                exit(1);
+                break;
+            }
             }
         }
     }
-}
