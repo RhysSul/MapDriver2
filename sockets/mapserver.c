@@ -50,6 +50,7 @@ int main(void)
                 read(clientFd, &request, sizeof(request));
                 printf("width: %d\n", request.width);
                 printf("height: %d\n", request.height);
+                shutdown(clientFd, SHUT_RDWR);
                 break;
             }
             default:
