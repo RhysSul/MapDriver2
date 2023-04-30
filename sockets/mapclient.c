@@ -15,11 +15,11 @@
 #include <arpa/inet.h>
 #include <sys/prctl.h>
 
-int sendM(int socketFd)
+int generateMap(int socketFd)
 {
     int res = 0;
     // Sends a request consisting of the ASCII character ‘M’
-    printf("Sending map request\n");
+    printf("Sending map generation request\n");
     res = write(socketFd, "M", 1);
     if (res < 0)
     {
@@ -45,11 +45,12 @@ int sendM(int socketFd)
     }
 }
 
-int readM(int socketFd)
+int readMap(int socketFd)
 {
     // (c) The client reads and interprets the reply. A map is output then to STDOUT, the error to STDERR.
 
     char action;
+    printf("Reading map read request\n");
     int res = read(socketFd, &action, sizeof(action));
     if (res < 0)
     {
@@ -104,6 +105,6 @@ int main(int argc, char *argv[])
         exit(2);
     }
 
-    sendM(socketFd);
-    readM(socketFd);
+    generateMap(socketFd);
+    readMap(socketFd);
 }
