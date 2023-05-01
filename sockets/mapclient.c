@@ -99,6 +99,11 @@ int readMap(int socketFd)
 
 int main(int argc, char *argv[])
 {
+    print("argc: %d\n", argc);
+    for (int i = 0; i < argc; i++)
+    {
+        print("argv[%d]: %s\n", i, argv[i]);
+    }
     printf("Starting client\n");
     struct sockaddr_in serverAddress;
     char *ipAddress = IP;
