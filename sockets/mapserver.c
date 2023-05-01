@@ -68,9 +68,10 @@ int main(void)
                 printf("width: %d\n", request.width);
                 printf("height: %d\n", request.height);
 
-                printf("Sending map\n");
+                printf("Sending map generation notification\n");
                 write(clientFd, "M", 1);
 
+                printf("Generating map\n");
                 // Generate Map:
                 int driverFid, res;
                 driverFid = open("/dev/asciimap", O_RDWR);
@@ -80,6 +81,7 @@ int main(void)
                     return -1;
                 }
 
+                printf("Sending map dimensions\n");
                 // send dimensions
                 res = write(clientFd, &request, sizeof(request));
                 if (res < 0)
@@ -88,6 +90,7 @@ int main(void)
                     return -1;
                 }
 
+                printf("Reading map from driver\n");
                 char buffer[BUFSIZ];
                 int amount_read = read(driverFid, buffer, BUFSIZ);
                 if (amount_read < 0)
@@ -97,8 +100,10 @@ int main(void)
                 }
 
                 // Send the map:
+                printf("Sending map to client\n");
                 write(clientFd, buffer, amount_read);
 
+                printf("Closing driver\n");
                 shutdown(clientFd, SHUT_RDWR);
                 break;
             }
