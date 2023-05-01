@@ -3,18 +3,18 @@
 1.
 - [x] Call the client and server "mapclient" and "mapserver" with appropriate C and header files.
 - [x] Define a common header file where common protocol messages (see below) are defined as well as the default port (23032) and IP (127.0.0.1)
-- [ ] Allow IP override via argv (on both client and server programs).
+- [x] Allow IP override via argv (on both client and server programs).
 
 2. 
 - [x]  The client connects to the server and sends a request consisting of the ASCII character ‘M’ followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
-- [ ]  0 means, the client does not care about the map size and server decides the size.
+- [x]  0 means, the client does not care about the map size and server decides the size.
 - [x] The server accepts, spawns a child, and reads from the socket and interprets the client’s request for its validity.  
 - [x] The ‘M’ message in the protocol always has ‘M’ followed by W IDT H and HEIGHT, followed by the entire map.
 - [ ] The ‘E’ message is followed by a single int, which is the length of the error message string that follows.
 - [x] The client reads and interprets the reply. A map is output then to STDOUT, the error to STDERR.
 - [ ] Any other message types currently would generate an error on either client or server sides (“unrecognized protocol message”).
-- [ ] The map server should read the default map from the /dev/asciimap device and write it to the client socket. 
-- [ ] At each valid client’s request the server seeks to the beginning of the map.
+- [x] The map server should read the default map from the /dev/asciimap device and write it to the client socket. 
+- [x] At each valid client’s request the server seeks to the beginning of the map.
 
 
 3. 
