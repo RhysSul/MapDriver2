@@ -15,7 +15,7 @@
 #include <arpa/inet.h>
 #include <sys/prctl.h>
 
-int generateMap(int socketFd)
+int generateMap(int socketFd, int width, int height)
 {
     int res = 0;
     // Sends a request consisting of the ASCII character ‘M’
@@ -30,8 +30,8 @@ int generateMap(int socketFd)
     // Followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
 
     struct mapRequest request;
-    request.width = 0;
-    request.height = 0;
+    request.width = width;
+    request.height = height;
     res = write(
         socketFd,
         &request,
@@ -99,20 +99,23 @@ int readMap(int socketFd)
 
 int main(int argc, char *argv[])
 {
-    printf("argc: %d\n", argc);
+    char *ipAddress = IP;
+    int port = PORT;
     int opt;
+    int width = 0;
+    int height = 0;
     while ((opt = getopt(argc, argv, "i:w:h:")) != -1)
     {
         switch (opt)
         {
         case 'i':
-            printf("IP: %s\n", optarg);
+            ipAddress = optarg;
             break;
         case 'w':
-            printf("WIDTH: %s\n", optarg);
+            width = atoi(optarg);
             break;
         case 'h':
-            printf("HEIGHT: %s\n", optarg);
+            height = atoi(optarg);
             break;
         default:
             printf("Unknown option\n");
@@ -121,8 +124,7 @@ int main(int argc, char *argv[])
     }
     printf("Starting client\n");
     struct sockaddr_in serverAddress;
-    char *ipAddress = IP;
-    int port = PORT;
+
     // TODO: Allow IP override via argv (on both client and server programs).
 
     printf("Creating socket\n");
@@ -148,6 +150,6 @@ int main(int argc, char *argv[])
         exit(2);
     }
 
-    generateMap(socketFd);
+    generateMap(socketFd, width, height);
     readMap(socketFd);
 }
