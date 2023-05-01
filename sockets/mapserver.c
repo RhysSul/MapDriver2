@@ -93,8 +93,8 @@ int main(void)
                 printf("Reading map from driver\n");
                 char buffer[request.width * request.height];
                 int amount_read = read(driverFid, buffer, request.width * request.height);
-                printf("amount read: %d\n", amount_read);
-                printf("buffer: %s\n", buffer);
+                printf("Read %d bytes from device file\n", amount_read);
+                printf("%s\n", buffer);
                 if (amount_read < 0)
                 {
                     printf("Error reading from device file\n");
