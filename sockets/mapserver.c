@@ -57,7 +57,7 @@ int main(void)
                 printf("client disconnected\n");
                 break;
             }
-            printf("cmd: %d\n", action);
+
             switch (action)
             {
             case 'M':
