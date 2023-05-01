@@ -81,7 +81,7 @@ int main(void)
                 }
 
                 // send dimensions
-                res = write(driverFid, &request, sizeof(request));
+                res = write(clientFd, &request, sizeof(request));
                 if (res < 0)
                 {
                     printf("Error writing to device file\n");
@@ -89,7 +89,7 @@ int main(void)
                 }
 
                 char buffer[BUFSIZ];
-                int amount_read = read(driverFid, buffer, BUFSIZ);
+                int amount_read = read(clientFd, buffer, BUFSIZ);
                 if (amount_read < 0)
                 {
                     printf("Error reading from device file\n");
