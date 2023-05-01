@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
         {
             printf("Error connecting to server\n");
             --i;
-            exit(2);
+            continue;
         }
 
         generateMap(socketFd);
