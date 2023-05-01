@@ -119,14 +119,18 @@ int main(int argc, char *argv[])
     inet_pton(AF_INET, ipAddress, &serverAddress.sin_addr);
 
     printf("Connecting to server\n");
-    int connectResult = connect(socketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
-
-    if (connectResult < 0)
+    // try connecting 10 times
+    for (int i = 0; i < 10; i++)
     {
-        printf("Error connecting to server\n");
-        exit(2);
-    }
+        int connectResult = connect(socketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
 
-    generateMap(socketFd);
-    readMap(socketFd);
+        if (connectResult < 0)
+        {
+            printf("Error connecting to server\n");
+            exit(2);
+        }
+
+        generateMap(socketFd);
+        readMap(socketFd);
+    }
 }
