@@ -17,29 +17,6 @@
 
 int main(int argc, char *argv[])
 {
-    char *ipAddress = IP;
-    int port = PORT;
-    int opt;
-    int width = 0;
-    int height = 0;
-    while ((opt = getopt(argc, argv, "i:w:h:")) != -1)
-    {
-        switch (opt)
-        {
-        case 'i':
-            ipAddress = optarg;
-            break;
-        case 'w':
-            width = atoi(optarg);
-            break;
-        case 'h':
-            height = atoi(optarg);
-            break;
-        default:
-            printf("Unknown option\n");
-            break;
-        }
-    }
     int socketFd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in serverAddress = {
         .sin_family = AF_INET,
