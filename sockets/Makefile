@@ -20,20 +20,3 @@ $(SERVER_EXE): $(SERVER_C)
 
 $(CLIENT_EXE): $(CLIENT_C)
 	$(CC) $(DEBUG) $(INCLUDE) $(FLAGS) $(CLIENT_C) -o $(CLIENT_EXE)
-
-%.o: %.c
-	$(CC) -c $(DEBUG) $(INCLUDE) $(FLAGS) $<
-
-start:
-	./$(SERVER_EXE) &
-	netstat -vatn | grep 23032
-
-kill:
-	killall ./$(SERVER_EXE)
-
-kill-client:
-	kill `ps -ef | grep tmpid | grep -v grep | awk '{print $$2}'`
-
-test:
-	for i in `pgrep -f tmpid`; do kill -10 $$i; sleep 1; done;
-
