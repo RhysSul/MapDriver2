@@ -36,11 +36,11 @@ int main(void)
         */
         int clientFd = accept(socketFd, NULL, NULL);
         pid_t pid = fork();
-        if (pid < 0)
-        {
-            printf("fork failed\n");
-            exit(1);
-        }
+        // if (pid < 0)
+        // {
+        //     printf("fork failed\n");
+        //     exit(1);
+        // }
         while (1)
         {
             /*
