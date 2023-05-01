@@ -14,8 +14,12 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-int main(int argc, char *argv[])
+int main(void)
 {
+    /*
+        The server accepts, spawns a child, and reads from the socket and interprets the client’s request
+        for its validity.
+    */
     int socketFd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in serverAddress = {
         .sin_family = AF_INET,
