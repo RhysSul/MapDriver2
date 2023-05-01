@@ -35,12 +35,12 @@ int main(void)
         for its validity.
         */
         int clientFd = accept(socketFd, NULL, NULL);
-        // pid_t pid = fork();
-        // if (pid < 0)
-        // {
-        //     printf("fork failed\n");
-        //     exit(1);
-        // }
+        pid_t pid = fork();
+        if (pid < 0)
+        {
+            printf("fork failed\n");
+            exit(1);
+        }
         while (1)
         {
             /*
@@ -111,10 +111,13 @@ int main(void)
                 shutdown(clientFd, SHUT_RDWR);
                 break;
             }
+            case 0:
+            {
+                break;
+            }
             default:
             {
                 printf("unknown command\n");
-                exit(1);
                 break;
             }
             }
