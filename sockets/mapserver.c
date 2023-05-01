@@ -1,4 +1,4 @@
-
+#include "../common.h"
 #include "socket-common.h"
 #include <unistd.h>
 #include <sys/stat.h>
@@ -92,6 +92,8 @@ int main(void)
 
                 printf("Reading map from driver\n");
                 char buffer[request.width * request.height];
+                lseek(driverFid, 0, SEEK_SET);
+                res = ioctl(driverFid, IOCTL_RESET);
                 int amount_read = read(driverFid, buffer, request.width * request.height);
                 printf("Read %d bytes from device file\n", amount_read);
                 printf("%s\n", buffer);
