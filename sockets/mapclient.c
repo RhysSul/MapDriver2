@@ -100,9 +100,24 @@ int readMap(int socketFd)
 int main(int argc, char *argv[])
 {
     printf("argc: %d\n", argc);
-    for (int i = 0; i < argc; i++)
+    int opt;
+    while ((opt = getopt(argc, argv, "i:w:h:")) != -1)
     {
-        printf("argv[%d]: %s\n", i, argv[i]);
+        switch (opt)
+        {
+        case 'i':
+            printf("IP: %s\n", optarg);
+            break;
+        case 'w':
+            printf("WIDTH: %s\n", optarg);
+            break;
+        case 'h':
+            printf("HEIGHT: %s\n", optarg);
+            break;
+        default:
+            printf("Unknown option\n");
+            break;
+        }
     }
     printf("Starting client\n");
     struct sockaddr_in serverAddress;
