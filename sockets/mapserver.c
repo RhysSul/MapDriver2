@@ -99,9 +99,10 @@ int main(void)
                     return -1;
                 }
 
+                char *test = "test";
                 // Send the map:
                 printf("Sending map to client\n");
-                write(clientFd, buffer, amount_read);
+                write(clientFd, test, strlen(test));
 
                 printf("Closing driver\n");
                 shutdown(clientFd, SHUT_RDWR);
