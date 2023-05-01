@@ -5,6 +5,8 @@
         "string_view": "c",
         "asciimap.h": "c",
         "fs.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "getopt.h": "c",
+        "stdlib.h": "c"
     }
 }
