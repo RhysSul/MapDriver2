@@ -27,7 +27,7 @@ int main(void)
         .sin_addr.s_addr = htonl(INADDR_ANY),
     };
     int bindResult = bind(socketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
-    int listenResult = listen(socketFd, 1);
+    int listenResult = listen(socketFd, 5);
     while (1)
     {
         /*

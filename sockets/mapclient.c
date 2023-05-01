@@ -127,6 +127,7 @@ int main(int argc, char *argv[])
         if (connectResult < 0)
         {
             printf("Error connecting to server\n");
+            --i;
             exit(2);
         }
 
