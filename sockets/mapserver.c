@@ -89,7 +89,7 @@ int main(void)
                 }
 
                 char buffer[BUFSIZ];
-                int amount_read = read(clientFd, buffer, BUFSIZ);
+                int amount_read = read(driverFid, buffer, BUFSIZ);
                 if (amount_read < 0)
                 {
                     printf("Error reading from device file\n");
