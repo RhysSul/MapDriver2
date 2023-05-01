@@ -65,6 +65,18 @@ int main(void)
                 printf("map request\n");
                 struct mapRequest request;
                 read(clientFd, &request, sizeof(request));
+
+                if (request.height == 0)
+                {
+                    printf("height is 0 overriding\n");
+                    request.height = BSIZE;
+                }
+                if (request.width == 0)
+                {
+                    printf("width is 0 overriding\n");
+                    request.width = BSIZE;
+                }
+
                 printf("width: %d\n", request.width);
                 printf("height: %d\n", request.height);
 

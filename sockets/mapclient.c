@@ -30,8 +30,8 @@ int generateMap(int socketFd)
     // Followed by either binary 0 (a single int) or two binary values, W IDT H and HEIGHT (two ints).
 
     struct mapRequest request;
-    request.width = 10;
-    request.height = 10;
+    request.width = 0;
+    request.height = 0;
     res = write(
         socketFd,
         &request,
@@ -119,18 +119,15 @@ int main(int argc, char *argv[])
     inet_pton(AF_INET, ipAddress, &serverAddress.sin_addr);
 
     printf("Connecting to server\n");
-    // try connecting 10 times
-    for (int i = 0; i < 10; i++)
+
+    int connectResult = connect(socketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
+
+    if (connectResult < 0)
     {
-        int connectResult = connect(socketFd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
-
-        if (connectResult < 0)
-        {
-            printf("Error connecting to server\n");
-            exit(2);
-        }
-
-        generateMap(socketFd);
-        readMap(socketFd);
+        printf("Error connecting to server\n");
+        exit(2);
     }
+
+    generateMap(socketFd);
+    readMap(socketFd);
 }
