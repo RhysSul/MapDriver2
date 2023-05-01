@@ -122,6 +122,10 @@ int main(int argc, char *argv[])
             break;
         }
     }
+    printf("IP: %s\n", ipAddress);
+    printf("Port: %d\n", port);
+    printf("Width: %d\n", width);
+    printf("Height: %d\n", height);
     printf("Starting client\n");
     struct sockaddr_in serverAddress;
 
