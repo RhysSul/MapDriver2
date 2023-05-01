@@ -3,17 +3,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/socket.h>
-#include <string.h>
-#include <sys/types.h>
-#include <netinet/in.h>
 #include <stdio.h>
-#include <signal.h>
 #include <getopt.h>
-#include <sys/wait.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <arpa/inet.h>
-#include <sys/prctl.h>
 
 int generateMap(int socketFd, int width, int height)
 {
