@@ -91,18 +91,17 @@ int main(void)
                 }
 
                 printf("Reading map from driver\n");
-                char buffer[BUFSIZ];
-                int amount_read = read(driverFid, buffer, BUFSIZ);
+                char buffer[request.width * request.height];
+                int amount_read = read(driverFid, buffer, request.width * request.height);
                 if (amount_read < 0)
                 {
                     printf("Error reading from device file\n");
                     return -1;
                 }
 
-                char *test = "test";
                 // Send the map:
                 printf("Sending map to client\n");
-                write(clientFd, test, strlen(test));
+                res = write(clientFd, buffer, request.width * request.height);
 
                 printf("Closing driver\n");
                 shutdown(clientFd, SHUT_RDWR);
